@@ -1,0 +1,1 @@
+import { SomeFunction } from './MikroORM'
