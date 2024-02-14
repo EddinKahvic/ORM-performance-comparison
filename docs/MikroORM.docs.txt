@@ -1,0 +1,44 @@
+In this guide, you will learn how to quickly bootstrap a simple project using MikroORM. For a deeper dive, check out the Getting Started guide which follows.
+First install the module via package manager of your choice. Do not forget to install the database driver as well:
+Next you will need to enable support for decorators as well as esModuleInterop in tsconfig.json via:
+The decorators are opt-in, if you use a different way to define your entity metadata like EntitySchema, you don't need to enable them.
+Then call MikroORM.init as part of bootstrapping your app:
+To access driver specific methods like em.createQueryBuilder() you need to import the MikroORM/EntityManager/EntityRepository class from the driver package. Alternatively you can cast the orm.em to EntityManager exported from the driver package:
+You can read more about all the possible configuration options in Advanced Configuration section.
+You can also provide paths where you store your entities via entities array. The paths are resolved via globby internally, so you can use globbing patterns, including negative globs.
+If you are experiencing problems with folder based discovery, try using mikro-orm debug CLI command to check what paths are actually being used.
+The default metadata provider is ReflectMetadataProvider. If you want to use ts-morph based discovery (that reads actual TS types via the compiler API), you need to install @mikro-orm/reflection package.
+Read more about the differences in Metadata Providers section.
+It is important that entities will point to the compiled JS files, and entitiesTs will point to the TS source files. You should not mix those.
+For ts-morph discovery to work in production, you need to deploy .d.ts declaration files. Be sure to enable compilerOptions.declaration in your tsconfig.json.
+You can also use different the default ReflectMetadataProvider or even write custom one. Using EntitySchema is another way to define your entities and does not depend on the metadata providers at all.
+As opposed to the async MikroORM.init method, you can prefer to use synchronous variant initSync. This method has some limitations:
+Now you will need to fork entity manager for each request so their identity maps will not collide. To do so, use the RequestContext helper:
+You should register this middleware as the last one just before request handlers and before any of your custom middleware that is using the ORM. There might be issues when you register it before request processing middleware like queryParser or bodyParser, so definitely register the context after them.
+More info about RequestContext is described here.
+Now you can start defining your entities (in one of the entities folders). This is how a simple entity can look like:
+Or if you want to use UUID primary key:
+More information can be found in defining entities section in docs.
+When you have your entities defined, you can start using ORM either via EntityManager.
+To save entity state to database, you need to persist it. Persist determines whether to use insert or update and computes appropriate change-set. Entity references that are not persisted yet (does not have identifier) will be cascade persisted automatically.
+To fetch entities from database you can use find() and findOne() of EntityManager:
+Take a look at docs about working with EntityManager.
+MikroORM ships with a number of command line tools that are very helpful during development, like SchemaGenerator and EntityGenerator. You can call this command from the NPM binary directory or use npx:
+To work with the CLI, first install @mikro-orm/cli package locally. The version needs to be aligned with the @mikro-orm/core package.
+For CLI to be able to access your database, you will need to create mikro-orm.config.js file that exports your ORM configuration.
+ORM configuration file can export the Promise, like: export default Promise.resolve({...});.
+To enable TypeScript support, add useTsNode flag to the mikro-orm section in your package.json file. By default, when useTsNode is not enabled, CLI will ignore .ts files, so if you want to oup-out of this behaviour, enable the alwaysAllowTs option. This would be useful if you want to use MikroORM with Bun, which has TypeScript support out of the box.
+The useTsNode is a flag only for the CLI, it has no effect on your application.
+You can also set up array of possible paths to mikro-orm.config.* file in the package.json, as well as use different file name. The package.json file can be located in the current working directory, or in one of its parent folders.
+Another way to control these CLI-related settings is with the environment variables:
+Alternatively, you can also specify the config path via --config option:
+The --config flag will be respected also when you run your app (as long as it is part of process.argv), not just when you use the CLI.
+Do not forget to install ts-node when enabling useTsNode flag.
+MikroORM will always try to load the first available config file, based on the order in configPaths. When you have useTsNode disabled or ts-node is not already registered nor detected, TS config files will be ignored.
+Preferred way of creating to the configuration object is with the defineConfig helper. It will provide intellisense even in JavaScript files, without the need for type hints via jsdoc:
+Using defineConfig also automatically infers the driver option for you if you import the helper from the driver package. This means you don't have to provide the driver option explicitly.
+Alternatively, you can use the Options type:
+Once you have the CLI config properly set up, you can omit the MikroORM.init() options parameter, and the CLI config will be automatically used. This process may fail if you use bundlers that use tree shaking. As the config file is not referenced anywhere statically, it would not be compiled - for that the best approach is to provide the config explicitly:
+Now you should be able to start using the CLI. All available commands are listed in the CLI help:
+To verify your setup, you can use mikro-orm debug command.
+When you have CLI config properly set up, you can omit the options parameter when calling MikroORM.init().

@@ -1,0 +1,44 @@
+In this Quickstart guide, you'll learn how to get started with Prisma from scratch using a plain TypeScript project and a local SQLite database file. It covers data modeling, migrations and querying a database.
+If you want to use Prisma with your own PostgreSQL, MySQL, MongoDB or any other supported database, go here instead:
+You need Node.js v16.13.0 or higher for this guide (learn more about system requirements).
+As a first step, create a project directory and navigate into it:
+Next, initialize a TypeScript project using npm:
+This creates a package.json with an initial setup for your TypeScript app.
+See installation instructions to learn how to install Prisma using a different package manager.
+Now, initialize TypeScript:
+Then, install the Prisma CLI as a development dependency in the project:
+Finally, set up Prisma with the init command of the Prisma CLI:
+This creates a new prisma directory with your Prisma schema file and configures SQLite as your database. You're now ready to model your data and create your database with some tables.
+The Prisma schema provides an intuitive way to model data. Add the following models to your schema.prisma file:
+Models in the Prisma schema have two main purposes:
+In the next section, you will map these models to database tables using Prisma Migrate.
+At this point, you have a Prisma schema but no database yet. Run the following command in your terminal to create the SQLite database and the User and Post tables represented by your models:
+This command did three things:
+Because the SQLite database file didn't exist before, the command also created it inside the prisma directory with the name dev.db as defined via the environment variable in the .env file.
+Congratulations, you now have your database and tables ready. Let's go and learn how you can send some queries to read and write data!
+To send queries to the database, you will need a TypeScript file to execute your Prisma Client queries. Create a new file called script.ts for this purpose:
+Then, paste the following boilerplate into it:
+This code contains a main function that's invoked at the end of the script. It also instantiates PrismaClient which represents the query interface to your database.
+Let's start with a small query to create a new User record in the database and log the resulting object to the console. Add the following code to your script.ts file:
+Instead of copying the code, you can type it out in your editor to experience the autocompletion Prisma Client provides. You can also actively invoke the autocompletion by pressing the CTRL+SPACE keys on your keyboard.
+Next, execute the script with the following command:
+Great job, you just created your first database record with Prisma Client! 🎉
+In the next section, you'll learn how to read data from the database.
+Prisma Client offers various queries to read data from your database. In this section, you'll use the findMany query that returns all the records in the database for a given model.
+Delete the previous Prisma Client query and add the new findMany query instead:
+Execute the script again:
+Notice how the single User object is now enclosed with square brackets in the console. That's because the findMany returned an array with a single object inside.
+One of the main features of Prisma Client is the ease of working with relations. In this section, you'll learn how to create a User and a Post record in a nested write query. Afterwards, you'll see how you can retrieve the relation from the database using the include option.
+First, adjust your script to include the nested query:
+Run the query by executing the script again:
+By default, Prisma only returns scalar fields in the result objects of a query. That's why, even though you also created a new Post record for the new User record, the console only printed an object with three scalar fields: id, email and name.
+In order to also retrieve the Post records that belong to a User, you can use the include option via the posts relation field:
+Run the script again to see the results of the nested read query:
+This time, you're seeing two User objects being printed. Both of them have a posts field (which is empty for "Alice" and populated with a single Post object for "Bob") that represents the Post records associated with them.
+Notice that the objects in the usersWithPosts array are fully typed as well. This means you will get autocompletion and the TypeScript compiler will prevent you from accidentally typing them.
+In this Quickstart guide, you have learned how to get started with Prisma in a plain TypeScript project. Feel free to explore the Prisma Client API a bit more on your own, e.g. by including filtering, sorting, and pagination options in the findMany query or exploring more operations like update and delete queries.
+Prisma comes with a built-in GUI to view and edit the data in your database. You can open it using the following command:
+If you want to move forward with Prisma using your own PostgreSQL, MySQL, MongoDB or any other supported database, follow the Set Up Prisma guides:
+Check out the prisma-examples repository on GitHub to see how Prisma can be used with your favorite library. The repo contains examples with Express, NestJS, GraphQL as well as fullstack examples with Next.js and Vue.js, and a lot more.
+The Prisma blog features comprehensive tutorials about Prisma, check out our latest ones:
+Prisma has a huge community of developers. Join us on Slack or Discord and ask questions via GitHub Discussions.
