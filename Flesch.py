@@ -7,4 +7,3 @@ with os.scandir("./docs") as entries:
             file = f.read()
             test = Readability(file)
             print(f'{entry.name}: {test.flesch()}')
-            f.close()
