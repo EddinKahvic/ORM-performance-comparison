@@ -28,13 +28,12 @@ async function getEntityManager() {
   return ConnectionState.em
 }
 
-export async function Create() {
+export async function CreateSimple() {
   const entityManager = await getEntityManager()
   const em = entityManager?.fork()
 
   if (em === undefined) return
 
-  // Simple Insert (One-to-One Relationship)
   const fluffy = em.create(Pets, {
     name: 'Fluffy',
     birthDate: '2005-05-12',
@@ -44,7 +43,15 @@ export async function Create() {
 
   await em.persistAndFlush(fluffy)
 
-  // Complex Insert (One-to-Many Relationship)
+  await close()
+}
+
+export async function CreateAdvanced() {
+  const entityManager = await getEntityManager()
+  const em = entityManager?.fork()
+
+  if (em === undefined) return
+
   const buddy = em.create(Pets, {
     name: 'Buddy',
     birthDate: '2010-01-15',
@@ -64,25 +71,31 @@ export async function Create() {
   await close()
 }
 
-export async function Read() {
+export async function ReadSimple() {
   const entityManager = await getEntityManager()
   const em = entityManager?.fork()
 
   if (em === undefined) return
 
-  // Simple Insert (One-to-One Relationship)
-  const pet1 = await em.findOne(Pets, 6)
+  const pet = await em.findOne(Pets, 6)
 
-  const pet2 = await em.findOne(
+  await close()
+}
+
+export async function ReadAdvanced() {
+  const entityManager = await getEntityManager()
+  const em = entityManager?.fork()
+
+  if (em === undefined) return
+
+  const pet = await em.findOne(
     Pets,
     {
       owner: {
         $and: [{ firstName: 'Eduardo' }, { lastName: 'Rodriquez' }],
       },
     },
-    {
-      populate: ['type', 'owner'],
-    }
+    { populate: ['type', 'owner'] }
   )
 
   await close()

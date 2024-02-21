@@ -1,5 +1,5 @@
-import { Create } from './MikroORM'
+import { Read } from './MikroORM'
 
-Create()
+Read()
   .then((_) => console.log('Create query'))
   .catch((error) => console.log(error))
