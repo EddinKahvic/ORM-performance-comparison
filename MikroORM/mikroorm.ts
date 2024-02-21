@@ -61,9 +61,31 @@ export async function Create() {
 
   await em.persistAndFlush([buddy, tweety])
 
-  close()
+  await close()
 }
 
-export async function Read() {}
+export async function Read() {
+  const entityManager = await getEntityManager()
+  const em = entityManager?.fork()
+
+  if (em === undefined) return
+
+  // Simple Insert (One-to-One Relationship)
+  const pet1 = await em.findOne(Pets, 6)
+
+  const pet2 = await em.findOne(
+    Pets,
+    {
+      owner: {
+        $and: [{ firstName: 'Eduardo' }, { lastName: 'Rodriquez' }],
+      },
+    },
+    {
+      populate: ['type', 'owner'],
+    }
+  )
+
+  await close()
+}
 export async function Update() {}
 export async function Delete() {}
