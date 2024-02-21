@@ -1,1 +1,1 @@
-export * from './mikroorm.ts'
+export * from './mikroorm'
