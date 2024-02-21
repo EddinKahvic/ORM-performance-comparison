@@ -6,6 +6,7 @@ import {
   DatabasePort,
   DatabaseUser,
 } from '../helpers/environment'
+import { Pets } from './Entities/Pets'
 
 export default defineConfig({
   user: DatabaseUser,
@@ -13,5 +14,5 @@ export default defineConfig({
   host: DatabaseHost,
   port: DatabasePort,
   password: DatabasePassword,
-  entities: ['MikroORM/Entities'],
+  entities: [Pets],
 })

@@ -29,7 +29,3 @@ export async function GenerateEntities() {
 
   await connection.close()
 }
-
-GenerateEntities()
-  .then((_) => console.log('Generated entities'))
-  .catch((error) => console.log(error))
