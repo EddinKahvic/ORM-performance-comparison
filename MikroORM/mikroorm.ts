@@ -60,6 +60,8 @@ export async function Create() {
   })
 
   await em.persistAndFlush([buddy, tweety])
+
+  close()
 }
 
 export async function Read() {}
