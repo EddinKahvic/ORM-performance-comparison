@@ -1,7 +1,7 @@
 import {Request, Response} from "express"
-import { pets} from "../../Entities/init-models"
+import { owners, pets, types} from "../../Entities/init-models"
 
-export const GetPetById = async (req:Request, res:Response) => {
+export const GetSimple = async (req:Request, res:Response) => {
   try{
     const myPets = await pets.findOne({
       where: {
@@ -9,7 +9,33 @@ export const GetPetById = async (req:Request, res:Response) => {
       }
     })
     res.json(myPets)
-  } catch (err) {
-    res.status(500).json(err)
+  } catch (error) {
+    res.status(500).json(error)
+  }
+}
+
+export const GetAdvanced = async (req:Request, res:Response) => {
+  try {
+    const rodriguezPets = await pets.findAll({
+      attributes: ['name', 'birth_date'],
+      include: [{
+        model:types,
+        as: "type",
+        attributes: ['name']
+      },
+      {
+        model:owners,
+        as: "owner", 
+        where: {
+          first_name: "Eduardo",
+          last_name: "Rodriquez",
+        },
+        attributes: []
+      }]
+    })
+
+    res.json(rodriguezPets)
+  } catch (error) {
+    res.status(500).json(error)
   }
 }
