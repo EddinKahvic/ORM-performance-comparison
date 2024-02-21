@@ -15,6 +15,9 @@ app.get("/sequelize/pets", async (req:Request, res:Response) =>{
   res.json(result)
 } )
 
+//Simple read
+app.use("/sequelize/pets/6", require('./Sequelize/routes/test/test.routes') )
+
 app.listen(5000, () =>{
   console.log("Server running on port 5000")
 })

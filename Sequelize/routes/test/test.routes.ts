@@ -1,7 +1,7 @@
 import express from "express"
-import { getTest } from "./test.controller"
+import { GetPetById } from "./test.controller"
 const router = express.Router()
 
-router.get('/', getTest)
+router.get('/', GetPetById)
 
 module.exports = router
