@@ -118,3 +118,5 @@ export async function deleteComplex() {
     },
   })
 }
+
+readSimple().catch()
