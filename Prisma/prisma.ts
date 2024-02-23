@@ -65,3 +65,56 @@ export async function readComplex() {
     },
   })
 }
+
+// Simple update
+export async function updateSimple() {
+  await prisma.owners.update({
+    where: {
+      id: 4,
+    },
+    data: {
+      address: '789 Maple St.',
+    },
+  })
+}
+
+// Complex update
+export async function updateComplex() {
+  await prisma.pets.updateMany({
+    where: {
+      types: {
+        name: 'cat',
+      },
+      owners: {
+        first_name: 'George',
+        last_name: 'Franklin',
+      },
+    },
+    data: {
+      birth_date: new Date('2005-01-01'),
+    },
+  })
+}
+
+// Simple delete
+export async function deleteSimple() {
+  await prisma.visits.delete({
+    where: {
+      id: 3,
+    },
+  })
+}
+
+// Complex delete
+export async function deleteComplex() {
+  await prisma.visits.deleteMany({
+    where: {
+      pets: {
+        owners: {
+          first_name: 'Jean',
+          last_name: 'Coleman',
+        },
+      },
+    },
+  })
+}
