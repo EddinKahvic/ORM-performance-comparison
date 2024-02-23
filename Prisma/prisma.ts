@@ -47,7 +47,7 @@ export async function readSimple() {
 
 // Complex read
 export async function readComplex() {
-  const testing = await prisma.pets.findMany({
+  await prisma.pets.findMany({
     select: {
       name: true,
       birth_date: true,
