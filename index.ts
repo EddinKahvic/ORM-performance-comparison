@@ -8,7 +8,7 @@ InitializeModels()
 
 app.use(express.json())
 
-app.use("/sequelize/pets", require('./Sequelize/routes/test/test.routes') )
+app.use("/sequelize/pets", require('./Sequelize/routes/read/read.routes') )
 
 app.listen(5000, () =>{
   console.log("Server running on port 5000")
