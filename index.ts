@@ -9,6 +9,7 @@ InitializeModels()
 app.use(express.json())
 
 app.use("/sequelize/read", require('./Sequelize/routes/read/read.routes') )
+app.use("/sequelize/create", require('./Sequelize/routes/create/create.routes'))
 
 
 app.listen(5000, () =>{
