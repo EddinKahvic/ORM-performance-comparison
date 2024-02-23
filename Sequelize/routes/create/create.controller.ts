@@ -15,7 +15,6 @@ export const CreateSimple = async (req:Request, res:Response) => {
   }
 }
 
-
 export const CreateAdvanced = async (req:Request, res:Response) => {
   try {
     pets.bulkCreate([
