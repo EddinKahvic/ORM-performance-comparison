@@ -1,5 +1,12 @@
-import { Read } from './MikroORM'
+import express from 'express'
+import { MikroORMRouter } from './MikroORM'
 
-Read()
-  .then((_) => console.log('Create query'))
-  .catch((error) => console.log(error))
+const app = express()
+
+app.use(express.json())
+
+app.use('/mikroorm/', MikroORMRouter)
+
+app.listen(5000, () => {
+  console.log('Server running on port 5000')
+})
