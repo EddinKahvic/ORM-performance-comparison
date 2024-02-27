@@ -23,6 +23,12 @@
     "ts-node-dev": "^2.0.0",
     "typescript": "^5.3.3"
   },
+  "mikro-orm": {
+    "useTsNode": true,
+    "configPaths": [
+      "./MikroORM/mikroorm.config.ts"
+    ]
+  },
   "devDependencies": {
     "@types/express": "^4.17.21"
   }
