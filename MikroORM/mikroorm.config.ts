@@ -8,6 +8,7 @@ import {
 } from '../helpers/environment'
 import { Pets } from './Entities/Pets'
 import { Owners } from './Entities/Owners'
+import { Visits } from './Entities/Visits'
 
 export default defineConfig({
   user: DatabaseUser,
@@ -15,6 +16,6 @@ export default defineConfig({
   host: DatabaseHost,
   port: DatabasePort,
   password: DatabasePassword,
-  entities: [Pets, Owners],
+  entities: [Pets, Owners, Visits],
   debug: true,
 })
