@@ -1,9 +1,7 @@
 import express from 'express'
 import { ReadSimple, ReadAdvanced } from './read.controller'
 
-const router = express.Router()
+export const ReadRouter = express.Router()
 
-router.get('/simple', ReadSimple)
-router.get('/advanced', ReadAdvanced)
-
-export default router
+ReadRouter.get('/simple', ReadSimple)
+ReadRouter.get('/advanced', ReadAdvanced)

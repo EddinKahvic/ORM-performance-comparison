@@ -1,9 +1,7 @@
 import express from 'express'
 import { CreateAdvanced, CreateSimple } from './create.controller'
 
-const router = express.Router()
+export const CreateRouter = express.Router()
 
-router.post('/simple', CreateSimple)
-router.post('/advanced', CreateAdvanced)
-
-export default router
+CreateRouter.post('/simple', CreateSimple)
+CreateRouter.post('/advanced', CreateAdvanced)

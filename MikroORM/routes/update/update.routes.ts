@@ -1,9 +1,7 @@
 import express from 'express'
 import { UpdateAdvanced, UpdateSimple } from './update.controller'
 
-const router = express.Router()
+export const UpdateRouter = express.Router()
 
-router.put('/simple', UpdateSimple)
-router.put('/advanced', UpdateAdvanced)
-
-export default router
+UpdateRouter.put('/simple', UpdateSimple)
+UpdateRouter.put('/advanced', UpdateAdvanced)
