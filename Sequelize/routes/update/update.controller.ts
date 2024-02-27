@@ -1,7 +1,7 @@
 import {Request, Response} from "express"
-import { owners} from "../../Entities/init-models"
+import { owners, pets, types} from "../../Entities/init-models"
 
-export const UpdateSimple = async (req:Request, res:Response) => {
+export const UpdateSimple = async (req: Request, res: Response) => {
   try {
     const owner = await owners.update({ 
         address: "789 Maple St."
@@ -12,6 +12,36 @@ export const UpdateSimple = async (req:Request, res:Response) => {
         }
       },)
     res.json(owner)
+  } catch (error) {
+    res.status(500).json(error)
+  }
+}
+
+export const UpdateAdvanced = async (req: Request, res: Response) => {
+  try {
+    const myPets = pets.findAll({
+      include: [
+        {
+          model: types,
+          as: "type",
+          where: { name: 'cat' }
+        },
+        {
+          model: owners,
+          as: "owner",
+          where: { 
+            first_name: 'George',
+            last_name: 'Franklin'
+          }
+        }
+      ]
+    }).then(pets => {
+      pets.map((pet)=> {
+        pet.birth_date = '2005-01-01'
+        pet.save()
+      })      
+    })
+    res.json(myPets)
   } catch (error) {
     res.status(500).json(error)
   }

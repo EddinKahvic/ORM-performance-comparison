@@ -1,7 +1,7 @@
 import {Request, Response} from "express"
 import { owners, pets, types} from "../../Entities/init-models"
 
-export const GetSimple = async (req:Request, res:Response) => {
+export const GetSimple = async (req: Request, res: Response) => {
   try{
     const myPets = await pets.findOne({
       where: {
@@ -14,7 +14,7 @@ export const GetSimple = async (req:Request, res:Response) => {
   }
 }
 
-export const GetAdvanced = async (req:Request, res:Response) => {
+export const GetAdvanced = async (req: Request, res: Response) => {
   try {
     const rodriguezPets = await pets.findAll({
       attributes: ['name', 'birth_date'],
