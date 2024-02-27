@@ -16,9 +16,9 @@ export const getSimple = async (req: Request, res: Response) => {
   }
 }
 
-export const getComplex = async (req: Request, res: Response) => {
+export const getAdvanced = async (req: Request, res: Response) => {
   try {
-    const deleteComplex = await prisma.visits.deleteMany({
+    const deleteAdvanced = await prisma.visits.deleteMany({
       where: {
         pets: {
           owners: {
@@ -28,7 +28,7 @@ export const getComplex = async (req: Request, res: Response) => {
         },
       },
     })
-    res.json(deleteComplex)
+    res.json(deleteAdvanced)
   } catch (error) {
     res.status(500).json(error)
   }

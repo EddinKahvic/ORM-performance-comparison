@@ -19,9 +19,9 @@ export const getSimple = async (req: Request, res: Response) => {
   }
 }
 
-export const getComplex = async (req: Request, res: Response) => {
+export const getAdvanced = async (req: Request, res: Response) => {
   try {
-    const createComplex = await prisma.pets.createMany({
+    const createAdvanced = await prisma.pets.createMany({
       data: [
         {
           name: 'Buddy',
@@ -37,7 +37,7 @@ export const getComplex = async (req: Request, res: Response) => {
         },
       ],
     })
-    res.json(createComplex)
+    res.json(createAdvanced)
   } catch (error) {
     res.status(500).json(error)
   }

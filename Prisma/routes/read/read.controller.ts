@@ -16,9 +16,9 @@ export const getSimple = async (req: Request, res: Response) => {
   }
 }
 
-export const getComplex = async (req: Request, res: Response) => {
+export const getAdvanced = async (req: Request, res: Response) => {
   try {
-    const readComplex = await prisma.pets.findMany({
+    const readAdvanced = await prisma.pets.findMany({
       select: {
         name: true,
         birth_date: true,
@@ -35,7 +35,7 @@ export const getComplex = async (req: Request, res: Response) => {
         },
       },
     })
-    res.json(readComplex)
+    res.json(readAdvanced)
   } catch (error) {
     res.status(500).json(error)
   }

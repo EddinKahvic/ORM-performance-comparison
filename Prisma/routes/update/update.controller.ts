@@ -19,9 +19,9 @@ export const getSimple = async (req: Request, res: Response) => {
   }
 }
 
-export const getComplex = async (req: Request, res: Response) => {
+export const getAdvanced = async (req: Request, res: Response) => {
   try {
-    const updateComplex = await prisma.pets.updateMany({
+    const updateAdvanced = await prisma.pets.updateMany({
       where: {
         types: {
           name: 'cat',
@@ -35,7 +35,7 @@ export const getComplex = async (req: Request, res: Response) => {
         birth_date: new Date('2005-01-01'),
       },
     })
-    res.json(updateComplex)
+    res.json(updateAdvanced)
   } catch (error) {
     res.status(500).json(error)
   }
