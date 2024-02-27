@@ -3,7 +3,8 @@ import express from "express"
 
 const app = express()
 const PORT = parseInt(process.env.PORT ?? '5000')
-TestConnection()
+
+//Initialize Sequelize models
 InitializeModels()
 
 app.use(express.json())

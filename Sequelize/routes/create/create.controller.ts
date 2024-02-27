@@ -1,7 +1,7 @@
 import {Request, Response} from "express"
 import { pets } from "../../Entities/pets"
 
-export const CreateSimple = async (req:Request, res:Response) => {
+export const CreateSimple = async (req: Request, res: Response) => {
   try {
     pets.create({
       name:"Fluffy",
@@ -11,11 +11,11 @@ export const CreateSimple = async (req:Request, res:Response) => {
     })
     res.json(201)
   } catch (error) {
-    console.log("Could not create entity pet with name 'Fluffy': ", error)
+    res.status(500).json(error)
   }
 }
 
-export const CreateAdvanced = async (req:Request, res:Response) => {
+export const CreateAdvanced = async (req: Request, res: Response) => {
   try {
     pets.bulkCreate([
       {
@@ -33,6 +33,6 @@ export const CreateAdvanced = async (req:Request, res:Response) => {
     ])
     res.json(201)
   } catch (error) {
-    console.log("Could not create entities pets with names 'Buddy' and 'Tweety': ", error)
+    res.status(500).json(error)
   }
 }
