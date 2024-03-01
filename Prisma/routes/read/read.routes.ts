@@ -1,9 +1,9 @@
 import express from 'express'
-import { getAdvanced, getSimple } from './read.controller'
+import { GetAdvanced, GetSimple } from './read.controller'
 
 const router = express.Router()
 
-router.get('/simple', getSimple)
-router.get('/advanced', getAdvanced)
+router.get('/simple', GetSimple)
+router.get('/advanced', GetAdvanced)
 
 module.exports = router

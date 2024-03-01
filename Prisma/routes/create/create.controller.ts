@@ -1,7 +1,7 @@
 import { Request, Response } from 'express'
 import { prisma } from '../../prisma'
 
-export const getSimple = async (req: Request, res: Response) => {
+export const GetSimple = async (req: Request, res: Response) => {
   try {
     const createSimple = await prisma.pets.create({
       data: {
@@ -17,7 +17,7 @@ export const getSimple = async (req: Request, res: Response) => {
   }
 }
 
-export const getAdvanced = async (req: Request, res: Response) => {
+export const GetAdvanced = async (req: Request, res: Response) => {
   try {
     const createAdvanced = await prisma.pets.createMany({
       data: [

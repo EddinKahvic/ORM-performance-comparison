@@ -1,7 +1,7 @@
 import { Request, Response } from 'express'
 import { prisma } from '../../prisma'
 
-export const getSimple = async (req: Request, res: Response) => {
+export const GetSimple = async (req: Request, res: Response) => {
   try {
     const readSimple = await prisma.pets.findUnique({
       where: {
@@ -14,7 +14,7 @@ export const getSimple = async (req: Request, res: Response) => {
   }
 }
 
-export const getAdvanced = async (req: Request, res: Response) => {
+export const GetAdvanced = async (req: Request, res: Response) => {
   try {
     const readAdvanced = await prisma.pets.findMany({
       select: {
