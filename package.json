@@ -18,6 +18,8 @@
     "dotenv": "^16.4.5",
     "express": "^4.18.2",
     "mysql2": "^3.9.1",
+    "newman": "^6.1.1",
+    "newman-reporter-csv": "^1.3.0",
     "sequelize": "^6.37.1",
     "sequelize-auto": "^0.8.8",
     "ts-node": "^10.9.2",
