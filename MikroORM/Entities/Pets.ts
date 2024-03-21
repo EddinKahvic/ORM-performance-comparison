@@ -1,4 +1,4 @@
-import { Entity, Index, ManyToOne, PrimaryKey, Property } from '@mikro-orm/core';
+import { Entity, ManyToOne, PrimaryKey, Property } from '@mikro-orm/core';
 import { Owners } from './Owners';
 import { Types } from './Types';
 
@@ -8,7 +8,6 @@ export class Pets {
   @PrimaryKey()
   id!: number;
 
-  @Index({ name: 'name' })
   @Property({ length: 30, nullable: true })
   name?: string;
 
