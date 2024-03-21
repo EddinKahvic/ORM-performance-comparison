@@ -60,13 +60,6 @@ export class vets extends Model<vetsAttributes, vetsCreationAttributes> implemen
           { name: "id" },
         ]
       },
-      {
-        name: "last_name",
-        using: "BTREE",
-        fields: [
-          { name: "last_name" },
-        ]
-      },
     ]
   });
   }

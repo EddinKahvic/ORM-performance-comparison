@@ -93,13 +93,6 @@ export class pets extends Model<petsAttributes, petsCreationAttributes> implemen
         ]
       },
       {
-        name: "name",
-        using: "BTREE",
-        fields: [
-          { name: "name" },
-        ]
-      },
-      {
         name: "owner_id",
         using: "BTREE",
         fields: [

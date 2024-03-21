@@ -54,13 +54,6 @@ export class specialties extends Model<specialtiesAttributes, specialtiesCreatio
           { name: "id" },
         ]
       },
-      {
-        name: "name",
-        using: "BTREE",
-        fields: [
-          { name: "name" },
-        ]
-      },
     ]
   });
   }
