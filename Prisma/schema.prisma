@@ -15,8 +15,6 @@ model owners {
   city       String? @db.VarChar(80)
   telephone  String? @db.VarChar(20)
   pets       pets[]
-
-  @@index([last_name], map: "last_name")
 }
 
 model pets {
@@ -29,7 +27,6 @@ model pets {
   types      types     @relation(fields: [type_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "pets_ibfk_2")
   visits     visits[]
 
-  @@index([name], map: "name")
   @@index([owner_id], map: "owner_id")
   @@index([type_id], map: "type_id")
 }
@@ -38,16 +35,12 @@ model specialties {
   id              Int               @id @default(autoincrement()) @db.UnsignedInt
   name            String?           @db.VarChar(80)
   vet_specialties vet_specialties[]
-
-  @@index([name], map: "name")
 }
 
 model types {
   id   Int     @id @default(autoincrement()) @db.UnsignedInt
   name String? @db.VarChar(80)
   pets pets[]
-
-  @@index([name], map: "name")
 }
 
 model vet_specialties {
@@ -65,8 +58,6 @@ model vets {
   first_name      String?           @db.VarChar(30)
   last_name       String?           @db.VarChar(30)
   vet_specialties vet_specialties[]
-
-  @@index([last_name], map: "last_name")
 }
 
 model visits {
