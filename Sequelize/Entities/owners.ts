@@ -78,13 +78,6 @@ export class owners extends Model<ownersAttributes, ownersCreationAttributes> im
           { name: "id" },
         ]
       },
-      {
-        name: "last_name",
-        using: "BTREE",
-        fields: [
-          { name: "last_name" },
-        ]
-      },
     ]
   });
   }

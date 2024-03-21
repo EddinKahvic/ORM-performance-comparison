@@ -54,13 +54,6 @@ export class types extends Model<typesAttributes, typesCreationAttributes> imple
           { name: "id" },
         ]
       },
-      {
-        name: "name",
-        using: "BTREE",
-        fields: [
-          { name: "name" },
-        ]
-      },
     ]
   });
   }
