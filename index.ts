@@ -11,10 +11,10 @@ InitializeModels()
 app.use(express.json())
 
 // Routes
-app.use('/prisma/read', require('./prisma/routes/read/read.routes'))
-app.use('/prisma/create', require('./prisma/routes/create/create.routes'))
-app.use('/prisma/update', require('./prisma/routes/update/update.routes'))
-app.use('/prisma/delete', require('./prisma/routes/delete/delete.routes'))
+app.use('/prisma/read', require('./Prisma/routes/read/read.routes'))
+app.use('/prisma/create', require('./Prisma/routes/create/create.routes'))
+app.use('/prisma/update', require('./Prisma/routes/update/update.routes'))
+app.use('/prisma/delete', require('./Prisma/routes/delete/delete.routes'))
 
 app.use('/sequelize/read', require('./Sequelize/routes/read/read.routes'))
 app.use('/sequelize/create', require('./Sequelize/routes/create/create.routes'))
