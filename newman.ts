@@ -1,20 +1,13 @@
 import MemoryUsage from './helpers/memoryUsage'
 import * as fs from 'fs/promises'
-
 import newman from 'newman'
-
-const RESULT_FOLDER = './results/'
 
 const [, , iterations = '100', library, operation, query] = process.argv
 
-const outputFile = `${RESULT_FOLDER}/${library}/${operation}/${library}-${operation}-${query}-${iterations}.csv`
+const outputFile = `./Results/${library}/${operation}/${library}-${operation}-${query}-${iterations}.csv`
 const collectionPath = `./Collections/${library}/${library}-${operation}-${query}.json`
 
-if (
-  [iterations, library, operation, query].some(
-    (value) => value === '' || value === undefined
-  )
-) {
+if (!validArguments()) {
   throw 'all arguments must be specified: ts-node newman.ts $iterations $library $operation $query'
 }
 
@@ -64,3 +57,9 @@ newman.run(
     }
   }
 )
+
+function validArguments() {
+  return [iterations, library, operation, query].some(
+    (value) => value === '' || value === undefined
+  )
+}
