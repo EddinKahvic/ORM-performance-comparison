@@ -1,0 +1,31 @@
+{
+	"info": {
+		"_postman_id": "aa6d09fe-35ad-47f4-9f19-5b33ebe3c081",
+		"name": "Prisma-create-simple",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "32682360"
+	},
+	"item": [
+		{
+			"name": "New Request",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:5000/prisma/create/simple",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"prisma",
+						"create",
+						"simple"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

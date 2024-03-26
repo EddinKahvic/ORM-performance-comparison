@@ -1,0 +1,31 @@
+{
+	"info": {
+		"_postman_id": "3b2dda08-3ab1-4a2f-8a5b-bbbc018cc7a6",
+		"name": "Prisma-read-simple",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "32682360"
+	},
+	"item": [
+		{
+			"name": "New Request",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:5000/prisma/read/simple",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"prisma",
+						"read",
+						"simple"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

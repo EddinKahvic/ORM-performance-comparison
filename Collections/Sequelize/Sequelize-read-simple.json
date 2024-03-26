@@ -1,0 +1,31 @@
+{
+	"info": {
+		"_postman_id": "4b5c770b-42a0-4fba-a45a-3a7459f4b60e",
+		"name": "Sequelize-read-simple",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "32682360"
+	},
+	"item": [
+		{
+			"name": "New Request",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:5000/sequelize/read/simple",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"sequelize",
+						"read",
+						"simple"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

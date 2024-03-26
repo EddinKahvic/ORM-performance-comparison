@@ -1,0 +1,31 @@
+{
+	"info": {
+		"_postman_id": "c68e626b-21d7-49ec-b922-613f133d7d95",
+		"name": "Prisma-update-simple",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "32682360"
+	},
+	"item": [
+		{
+			"name": "New Request",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:5000/prisma/update/simple",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"prisma",
+						"update",
+						"simple"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

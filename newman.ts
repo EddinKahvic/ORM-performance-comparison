@@ -1,7 +1,7 @@
 const newman = require('newman');
 
-const COLLECTION_PATH = './testcollection.json';
-const OUTPUT_CSV = 'response_times1.csv';
+const COLLECTION_PATH = './Collections/MikroORM/MikroORM-create-advanced.json';
+const OUTPUT_CSV = 'test.csv';
 
 newman.run({
   collection: require(COLLECTION_PATH),
