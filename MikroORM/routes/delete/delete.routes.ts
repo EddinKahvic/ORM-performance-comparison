@@ -3,7 +3,7 @@ import { DeleteAdvanced, DeleteSimple } from './delete.controller'
 
 const DeleteRouter = express.Router()
 
-DeleteRouter.post('/simple', DeleteSimple)
-DeleteRouter.post('/advanced', DeleteAdvanced)
+DeleteRouter.delete('/simple', DeleteSimple)
+DeleteRouter.delete('/advanced', DeleteAdvanced)
 
 export default DeleteRouter
