@@ -1,23 +1,31 @@
 import MemoryUsage from './helpers/memoryUsage'
-import * as fs from 'fs'
-import readline from 'readline'
+import * as fs from 'fs/promises'
 
-const newman = require('newman')
+import newman from 'newman'
 
-const COLLECTION_PATH = './Collections/MikroORM/MikroORM-read-simple.json'
-const OUTPUT_CSV = 'test.csv'
+const RESULT_FOLDER = './results/'
 
-const [, , iterations, outputFile] = process.argv
-console.log('Running', iterations, 'iterations')
+const [, , iterations = '100', library, operation, query] = process.argv
+
+const outputFile = `${RESULT_FOLDER}/${library}/${operation}/${library}-${operation}-${query}-${iterations}.csv`
+const collectionPath = `./Collections/${library}/${library}-${operation}-${query}.json`
+
+if (
+  [iterations, library, operation, query].some(
+    (value) => value === '' || value === undefined
+  )
+) {
+  throw 'all arguments must be specified: ts-node newman.ts $iterations $library $operation $query'
+}
 
 newman.run(
   {
-    collection: require(COLLECTION_PATH),
+    collection: require(collectionPath),
     reporters: 'csv',
-    iterationCount: parseInt(iterations) ?? 100,
+    iterationCount: parseInt(iterations),
     reporter: {
       csv: {
-        export: OUTPUT_CSV,
+        export: outputFile,
         responseTime: true,
       },
     },
@@ -27,16 +35,31 @@ newman.run(
       console.error('Postman collection run failed:', err)
     } else {
       console.log(
-        `Postman collection run completed successfully. Response times saved to ${OUTPUT_CSV}`
+        `Postman collection run completed successfully. Response times saved to ${outputFile}`
       )
 
-      const csvStream = fs.createReadStream('test.csv')
-      const reader = readline.createInterface({
-        input: csvStream,
-      })
-
       const usages = await MemoryUsage.GetMemoryUsages()
-      console.log(usages)
+
+      const data = await fs.readFile(outputFile, 'utf8')
+
+      const rows = data.trim().split('\n')
+
+      for (let i = 0; i < rows.length; i++) {
+        if (i === 0) {
+          const newRow = `${rows[i].trim()},memoryUsage`
+          rows[i] = newRow
+        } else {
+          const usage = usages[i - 1] || '0'
+          const newRow = `${rows[i].trim()},"${usage}"`
+          rows[i] = newRow
+        }
+      }
+
+      const updatedCSV = rows.join('\n')
+
+      await fs.writeFile(outputFile, updatedCSV, 'utf8')
+
+      console.log('Memory usage data added to CSV file.')
       await MemoryUsage.ClearMemoryUsages()
     }
   }
