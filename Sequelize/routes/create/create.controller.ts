@@ -3,7 +3,7 @@ import { pets } from '../../Entities/pets'
 
 export const CreateSimple = async (req: Request, res: Response) => {
   try {
-    pets.create({
+    const pet = await pets.create({
       name: 'Fluffy',
       birth_date: '2005-05-12',
       type_id: 1,
@@ -11,7 +11,7 @@ export const CreateSimple = async (req: Request, res: Response) => {
     })
 
     req.stop()
-    res.json(201)
+    res.json(pet)
   } catch (error) {
     res.status(500).json(error)
   }
@@ -19,7 +19,7 @@ export const CreateSimple = async (req: Request, res: Response) => {
 
 export const CreateAdvanced = async (req: Request, res: Response) => {
   try {
-    pets.bulkCreate([
+    const bulkPets = await pets.bulkCreate([
       {
         name: 'Buddy',
         birth_date: '2010-01-15',
@@ -35,7 +35,7 @@ export const CreateAdvanced = async (req: Request, res: Response) => {
     ])
 
     req.stop()
-    res.json(201)
+    res.json(bulkPets)
   } catch (error) {
     res.status(500).json(error)
   }

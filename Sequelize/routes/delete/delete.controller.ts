@@ -5,7 +5,7 @@ import { pets } from '../../Entities/pets'
 
 export const DeleteSimple = async (req: Request, res: Response) => {
   try {
-    const deletion = visits.destroy({
+    const deletion = await visits.destroy({
       where: {
         id: 3,
       },
@@ -20,41 +20,35 @@ export const DeleteSimple = async (req: Request, res: Response) => {
 
 export const DeleteAdvanced = async (req: Request, res: Response) => {
   try {
-    const deletion = owners
-      .findOne({
-        where: {
-          first_name: 'Jean',
-          last_name: 'Coleman',
-        },
-        include: {
-          model: pets,
-          as: 'pets',
-          include: [
-            {
-              model: visits,
-              as: 'visits',
-            },
-          ],
-        },
+    const owner = await owners.findOne({
+      where: {
+        first_name: 'Jean',
+        last_name: 'Coleman',
+      },
+      include: {
+        model: pets,
+        as: 'pets',
+        include: [
+          {
+            model: visits,
+            as: 'visits',
+          },
+        ],
+      },
+    })
+
+    if (owner !== null) {
+      owner.pets.forEach(async (pet) => {
+        pet.visits.forEach(async (visit) => {
+          await visit.destroy()
+        })
       })
-      .then((owner) => {
-        if (owner) {
-          owner.pets.forEach((pet) => {
-            pet.visits.forEach((visit) => {
-              visit.destroy()
-            })
-          })
-          console.log('Visits deleted successfully.')
-        } else {
-          console.log('Owner not found.')
-        }
-      })
-      .catch((err) => {
-        console.error('Error:', err)
-      })
+    } else {
+      res.status(404).send()
+    }
 
     req.stop()
-    res.json(deletion)
+    res.status(200).json({})
   } catch (error) {
     res.status(500).json(error)
   }
