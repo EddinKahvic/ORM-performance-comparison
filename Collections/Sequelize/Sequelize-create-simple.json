@@ -1,0 +1,31 @@
+{
+	"info": {
+		"_postman_id": "8bb3e314-df75-4082-9147-2ccde5bdf8da",
+		"name": "Sequelize-create-simple",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "32682360"
+	},
+	"item": [
+		{
+			"name": "New Request",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:5000/sequelize/create/simple",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"sequelize",
+						"create",
+						"simple"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

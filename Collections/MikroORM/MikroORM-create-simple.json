@@ -1,0 +1,31 @@
+{
+	"info": {
+		"_postman_id": "30e23481-b25d-47e3-acfe-a2211a52d637",
+		"name": "MikroORM-create-simple",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "32682360"
+	},
+	"item": [
+		{
+			"name": "New Request",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:5000/mikroorm/create/simple",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"mikroorm",
+						"create",
+						"simple"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

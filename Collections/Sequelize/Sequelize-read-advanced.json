@@ -1,0 +1,31 @@
+{
+	"info": {
+		"_postman_id": "598e1f54-31a3-4bf5-aed9-e03e7e865936",
+		"name": "Sequelize-read-advanced",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "32682360"
+	},
+	"item": [
+		{
+			"name": "New Request",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:5000/sequelize/read/advanced",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"sequelize",
+						"read",
+						"advanced"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

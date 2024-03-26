@@ -1,7 +1,7 @@
 {
 	"info": {
-		"_postman_id": "a6c6601e-dafa-4b6a-a22a-cb62d8d8fef2",
-		"name": "New Collection",
+		"_postman_id": "79dfa852-db95-4dd2-85f3-f1b5526f9b24",
+		"name": "MikroORM-create-advanced",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "32682360"
 	},
@@ -9,10 +9,10 @@
 		{
 			"name": "New Request",
 			"request": {
-				"method": "GET",
+				"method": "POST",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:5000/sequelize/read/simple",
+					"raw": "http://localhost:5000/mikroorm/create/advanced",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -20,8 +20,8 @@
 					"port": "5000",
 					"path": [
 						"mikroorm",
-						"read",
-						"simple"
+						"create",
+						"advanced"
 					]
 				}
 			},

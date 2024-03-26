@@ -1,0 +1,31 @@
+{
+	"info": {
+		"_postman_id": "8d3796f1-3f5d-4889-8062-5747e3c185b9",
+		"name": "MikroORM-read-advanced",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "32682360"
+	},
+	"item": [
+		{
+			"name": "New Request",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:5000/mikroorm/read/advanced",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"mikroorm",
+						"read",
+						"advanced"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
