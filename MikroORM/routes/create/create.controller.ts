@@ -16,6 +16,7 @@ export async function CreateSimple(req: Request, res: Response) {
     await entityManager.persistAndFlush(fluffy)
     await closeConnection()
 
+    req.stop()
     res.status(201).send("Created pet 'Fluffy'")
   } catch (error) {
     res.status(500).send("Could not create entity with name 'Fluffy': " + error)
@@ -43,6 +44,7 @@ export async function CreateAdvanced(req: Request, res: Response) {
     await entityManager.persistAndFlush([buddy, tweety])
     await closeConnection()
 
+    req.stop()
     res.status(201).send("Created pets 'Buddy' and 'Tweety'")
   } catch (error) {
     res

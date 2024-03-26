@@ -16,6 +16,7 @@ export async function UpdateSimple(req: Request, res: Response) {
     await entityManager.flush()
     await closeConnection()
 
+    req.stop()
     res.status(204).send('Updated')
   } catch (error) {
     res.status(500).send(error)
@@ -44,6 +45,7 @@ export async function UpdateAdvanced(req: Request, res: Response) {
     await entityManager.flush()
     await closeConnection()
 
+    req.stop()
     res.status(204).send('Updated')
   } catch (error) {
     res.status(500).send(error)

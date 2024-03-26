@@ -11,6 +11,8 @@ export const UpdateSimple = async (req: Request, res: Response) => {
         address: '789 Maple St.',
       },
     })
+
+    req.stop()
     res.json(updateSimple)
   } catch (error) {
     res.status(500).json(error)
@@ -33,6 +35,8 @@ export const UpdateAdvanced = async (req: Request, res: Response) => {
         birth_date: new Date('2005-01-01'),
       },
     })
+
+    req.stop()
     res.json(updateAdvanced)
   } catch (error) {
     res.status(500).json(error)

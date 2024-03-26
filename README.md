@@ -22,3 +22,9 @@ DATABASE_PASSWORD = "YOUR_DATABASE_PASSWORD"
 # Prisma configuration
 DATABASE_URL="mysql://USER:PASSWORD@HOST:PORT/DATABASE?schema=public"
 ```
+
+## Run newman script
+
+```
+ts-node newman.ts $iterations $library $operation $query
+```
