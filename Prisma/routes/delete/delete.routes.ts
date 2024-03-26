@@ -1,9 +1,9 @@
 import express from 'express'
-import { GetAdvanced, GetSimple } from './delete.controller'
+import { DeleteAdvanced, DeleteSimple } from './delete.controller'
 
 const router = express.Router()
 
-router.get('/simple', GetSimple)
-router.get('/advanced', GetAdvanced)
+router.delete('/simple', DeleteSimple)
+router.delete('/advanced', DeleteAdvanced)
 
 module.exports = router

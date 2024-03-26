@@ -1,7 +1,7 @@
 import { Request, Response } from 'express'
 import { prisma } from '../../prisma'
 
-export const GetSimple = async (req: Request, res: Response) => {
+export const DeleteSimple = async (req: Request, res: Response) => {
   try {
     const deleteSimple = await prisma.visits.delete({
       where: {
@@ -14,7 +14,7 @@ export const GetSimple = async (req: Request, res: Response) => {
   }
 }
 
-export const GetAdvanced = async (req: Request, res: Response) => {
+export const DeleteAdvanced = async (req: Request, res: Response) => {
   try {
     const deleteAdvanced = await prisma.visits.deleteMany({
       where: {
