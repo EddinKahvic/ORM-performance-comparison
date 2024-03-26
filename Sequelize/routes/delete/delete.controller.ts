@@ -10,6 +10,8 @@ export const DeleteSimple = async (req: Request, res: Response) => {
         id: 3,
       },
     })
+
+    req.stop()
     res.json(deletion)
   } catch (error) {
     res.status(500).json(error)
@@ -45,6 +47,7 @@ export const DeleteAdvanced = async (req: Request, res: Response) => {
       res.status(404).send()
     }
 
+    req.stop()
     res.status(200).json({})
   } catch (error) {
     res.status(500).json(error)

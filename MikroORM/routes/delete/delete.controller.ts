@@ -11,6 +11,7 @@ export async function DeleteSimple(req: Request, res: Response) {
     await entityManager.flush()
     await closeConnection()
 
+    req.stop()
     res.status(204).send('Deleted')
   } catch (error) {
     res.status(500).send(error)
@@ -36,6 +37,7 @@ export async function DeleteAdvanced(req: Request, res: Response) {
     await entityManager.flush()
     await closeConnection()
 
+    req.stop()
     res.status(204).send('Deleted')
   } catch (error) {
     res.status(500).send(error)

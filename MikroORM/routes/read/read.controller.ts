@@ -9,6 +9,7 @@ export async function ReadSimple(req: Request, res: Response) {
     const pet = await entityManager.findOne(Pets, 6)
     await closeConnection()
 
+    req.stop()
     res.json(pet)
   } catch (error) {
     res.status(500).send(error)
@@ -31,6 +32,7 @@ export async function ReadAdvanced(req: Request, res: Response) {
 
     await closeConnection()
 
+    req.stop()
     res.json(pet)
   } catch (error) {
     res.status(500).send(error)

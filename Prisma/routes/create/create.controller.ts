@@ -11,6 +11,8 @@ export const CreateSimple = async (req: Request, res: Response) => {
         owner_id: 2,
       },
     })
+
+    req.stop()
     res.json(createSimple)
   } catch (error) {
     res.status(500).json(error)
@@ -35,6 +37,8 @@ export const CreateAdvanced = async (req: Request, res: Response) => {
         },
       ],
     })
+
+    req.stop()
     res.json(createAdvanced)
   } catch (error) {
     res.status(500).json(error)

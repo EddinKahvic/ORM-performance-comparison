@@ -1,6 +1,13 @@
 import express from 'express'
 import { InitializeModels } from './Sequelize'
 import MikroORMRoutes from './MikroORM'
+import { MemoryUsageMiddleware } from './helpers/middlewares'
+
+declare module 'express-serve-static-core' {
+  interface Request {
+    stop: () => void
+  }
+}
 
 const app = express()
 const PORT = parseInt(process.env.PORT ?? '5000')
@@ -9,6 +16,7 @@ const PORT = parseInt(process.env.PORT ?? '5000')
 InitializeModels()
 
 app.use(express.json())
+app.use(MemoryUsageMiddleware)
 
 // Routes
 app.use('/prisma/read', require('./Prisma/routes/read/read.routes'))

@@ -8,6 +8,8 @@ export const ReadSimple = async (req: Request, res: Response) => {
         id: 6,
       },
     })
+
+    req.stop()
     res.json(readSimple)
   } catch (error) {
     res.status(500).json(error)
@@ -33,6 +35,7 @@ export const ReadAdvanced = async (req: Request, res: Response) => {
         },
       },
     })
+    req.stop()
     res.json(readAdvanced)
   } catch (error) {
     res.status(500).json(error)

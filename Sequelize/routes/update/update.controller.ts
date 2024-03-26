@@ -13,6 +13,8 @@ export const UpdateSimple = async (req: Request, res: Response) => {
         },
       }
     )
+
+    req.stop()
     res.json(owner)
   } catch (error) {
     res.status(500).json(error)
@@ -44,6 +46,7 @@ export const UpdateAdvanced = async (req: Request, res: Response) => {
       pet.save()
     })
 
+    req.stop()
     res.json(Pets)
   } catch (error) {
     res.status(500).json(error)
