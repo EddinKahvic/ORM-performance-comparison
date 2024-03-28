@@ -1,21 +1,27 @@
 import MemoryUsage from './helpers/memoryUsage'
 import * as fs from 'fs/promises'
 import newman from 'newman'
+import { z } from "zod"
 
-const [, , iterations = '100', library, operation, query] = process.argv
+const Iterations = z.number().positive()
+const Library = z.enum(["MikroORM", "Prisma", "Sequelize"])
+const Operation = z.enum(["Create", "Read", "Update", "Delete"])
+const Query = z.enum(["Simple", "Advanced"])
+
+const [, , iters, library, operation, query] = process.argv
+
+const iterations = parseInt(iters) ?? -1
+
+validateArguments()
 
 const outputFile = `./Results/${library}/${operation}/${library}-${operation}-${query}-${iterations}.csv`
 const collectionPath = `./Collections/${library}/${library}-${operation}-${query}.json`
-
-if (!validArguments()) {
-  throw 'all arguments must be specified: ts-node newman.ts $iterations $library $operation $query'
-}
 
 newman.run(
   {
     collection: require(collectionPath),
     reporters: 'csv',
-    iterationCount: parseInt(iterations),
+    iterationCount: iterations,
     reporter: {
       csv: {
         export: outputFile,
@@ -58,8 +64,21 @@ newman.run(
   }
 )
 
-function validArguments() {
-  return [iterations, library, operation, query].some(
-    (value) => value === '' || value === undefined
-  )
+function validateArguments() {
+  if (!Iterations.safeParse(iterations).success) {
+    throw "Invalid iterations argument"
+  }
+  if (!Library.safeParse(library).success) {
+    throw `Invalid library argument: ${errorMessage(library, Library)}`
+  }
+  if (!Operation.safeParse(operation).success) {
+    throw `Invalid operation argument: ${errorMessage(operation, Operation)}`
+  }
+  if (!Query.safeParse(query).success) {
+    throw `Invalid query argument: ${errorMessage(query, Query)}`
+  }
+}
+
+function errorMessage(entry: string, types: z.ZodEnum<any>) {
+  return `${entry} is not type of ${Object.keys(types.Values).join(" | ")}`
 }
