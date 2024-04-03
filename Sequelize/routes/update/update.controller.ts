@@ -1,18 +1,22 @@
 import { Request, Response } from 'express'
 import { owners, pets, types } from '../../Entities/init-models'
+import { Op } from 'sequelize'
 
 export const UpdateSimple = async (req: Request, res: Response) => {
   try {
-    const owner = await owners.update(
-      {
-        address: '789 Maple St.',
-      },
+    const owner = await owners.findOne(
       {
         where: {
-          id: 4,
+          first_name: 'Harold',
+          last_name: 'Davis',
+          address:{[Op.ne]: '789 Maple St.' }
         },
-      }
-    )
+      })
+
+    if(owner){
+      owner.address = '789 Maple St.'
+      owner.save()
+    }
 
     req.stop()
     res.json(owner)
@@ -23,7 +27,7 @@ export const UpdateSimple = async (req: Request, res: Response) => {
 
 export const UpdateAdvanced = async (req: Request, res: Response) => {
   try {
-    const Pets = await pets.findAll({
+    const petToUpdate = await pets.findOne({
       include: [
         {
           model: types,
@@ -39,15 +43,21 @@ export const UpdateAdvanced = async (req: Request, res: Response) => {
           },
         },
       ],
+      where: {
+        birth_date: { [Op.ne]: '2005-01-01' } 
+      }
     })
+    
+    if (petToUpdate) {
+      petToUpdate.birth_date = '2005-01-01';
+      await petToUpdate.save();
+    } else {
+      console.log('No cat found for George Franklin that requires updating');
+    }
 
-    Pets.map((pet) => {
-      pet.birth_date = '2005-01-01'
-      pet.save()
-    })
 
     req.stop()
-    res.json(Pets)
+    res.json(petToUpdate)
   } catch (error) {
     res.status(500).json(error)
   }
