@@ -13,6 +13,8 @@ export const DeleteSimple = async (req: Request, res: Response) => {
 
     if(deletion){
       deletion.destroy()
+    } else {
+      res.status(404).send()
     }
 
     req.stop()

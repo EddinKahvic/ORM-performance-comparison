@@ -16,6 +16,8 @@ export const UpdateSimple = async (req: Request, res: Response) => {
     if(owner){
       owner.address = '789 Maple St.'
       owner.save()
+    } else {
+      console.log('No owner found with name Harold Davis that requires updating');
     }
 
     req.stop()
