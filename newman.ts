@@ -5,8 +5,8 @@ import { z } from 'zod'
 
 const Iterations = z.number().positive()
 const Library = z.enum(['MikroORM', 'Prisma', 'Sequelize'])
-const Operation = z.enum(['Create', 'Read', 'Update', 'Delete'])
-const Query = z.enum(['Simple', 'Advanced'])
+const Operation = z.enum(['create', 'read', 'update', 'delete'])
+const Query = z.enum(['simple', 'advanced'])
 
 const [, , iters, library, operation, query] = process.argv
 
