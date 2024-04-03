@@ -9,7 +9,7 @@ export const CreateSimple = async (req: Request, res: Response) => {
       type_id: 1,
       owner_id: 2,
     })
-
+    
     req.stop()
     res.json(pet)
   } catch (error) {
