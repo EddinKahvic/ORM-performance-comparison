@@ -5,11 +5,15 @@ import { pets } from '../../Entities/pets'
 
 export const DeleteSimple = async (req: Request, res: Response) => {
   try {
-    const deletion = await visits.destroy({
+    const deletion = await visits.findOne({
       where: {
-        id: 3,
+        visit_date: '2009-06-04',
       },
     })
+
+    if(deletion){
+      deletion.destroy()
+    }
 
     req.stop()
     res.json(deletion)
@@ -36,12 +40,13 @@ export const DeleteAdvanced = async (req: Request, res: Response) => {
         ],
       },
     })
-
+    
     if (owner !== null) {
       owner.pets.forEach(async (pet) => {
-        pet.visits.forEach(async (visit) => {
-          await visit.destroy()
-        })
+        const visitToDelete = pet.visits.shift()
+        if(visitToDelete){
+          await visitToDelete.destroy()
+        }
       })
     } else {
       res.status(404).send()
