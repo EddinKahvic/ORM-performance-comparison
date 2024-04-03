@@ -9,11 +9,11 @@ export const UpdateSimple = async (req: Request, res: Response) => {
       where: {
         first_name: 'Harold',
         last_name: 'Davis',
-        address:{[Op.ne]: '789 Maple St.' }
+        address:{ [Op.ne]: '789 Maple St.' }
       },
     })
 
-    if(owner){
+    if(owner !== null){
       owner.address = '789 Maple St.'
       owner.save()
     } else {
@@ -50,7 +50,7 @@ export const UpdateAdvanced = async (req: Request, res: Response) => {
       }
     })
     
-    if (petToUpdate) {
+    if (petToUpdate !== null) {
       petToUpdate.birth_date = '2005-01-01';
       await petToUpdate.save();
     } else {

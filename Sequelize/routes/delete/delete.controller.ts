@@ -11,7 +11,7 @@ export const DeleteSimple = async (req: Request, res: Response) => {
       },
     })
 
-    if(deletion){
+    if(deletion !== null){
       deletion.destroy()
     } else {
       res.status(404).send()
