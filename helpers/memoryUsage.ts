@@ -8,7 +8,9 @@ export class MemoryUsageProvider {
 
     return () => {
       const usageBytes = this.GetMemoryUsage() - start
-      const usage = this.ToMegaBytes(usageBytes)
+      const usage = usageBytes
+
+      global.gc?.()
 
       this.AppendToFile(usage)
     }

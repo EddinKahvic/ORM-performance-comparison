@@ -2,7 +2,11 @@ import express from 'express'
 import { InitializeModels } from './Sequelize'
 import MikroORMRoutes from './MikroORM'
 import { MemoryUsageMiddleware } from './helpers/middlewares'
+import { setFlagsFromString } from 'v8'
 
+setFlagsFromString('--expose-gc --trace-gc')
+
+// Extend Express Request interface
 declare module 'express-serve-static-core' {
   interface Request {
     stop: () => void
