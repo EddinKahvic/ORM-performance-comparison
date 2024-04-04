@@ -13,7 +13,6 @@ BEGIN
     END WHILE;
 END$$
 
-
 CREATE PROCEDURE insert_owner_harold_davis_25000()
 BEGIN
     DECLARE i INT DEFAULT 0;
@@ -23,7 +22,6 @@ BEGIN
     END WHILE;
 END$$
 
-
 CREATE PROCEDURE insert_visit_with_date_25000()
 BEGIN
     DECLARE i INT DEFAULT 0;
@@ -32,7 +30,6 @@ BEGIN
         SET i = i + 1;
     END WHILE;
 END$$
-
 
 CREATE PROCEDURE insert_visit_owner_jean_coleman_25000()
 BEGIN
