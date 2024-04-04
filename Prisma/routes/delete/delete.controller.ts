@@ -32,8 +32,13 @@ export const DeleteAdvanced = async (req: Request, res: Response) => {
           first_name: 'Jean',
           last_name: 'Coleman',
         },
+        visits: {
+          some: {},
+        },
       },
     })
+
+    if (pets.length === 0) return res.status(404).send()
 
     pets.map(async (pet) => {
       const visit = await prisma.visits.findFirst({
@@ -42,12 +47,9 @@ export const DeleteAdvanced = async (req: Request, res: Response) => {
         },
       })
 
-      if (visit === null) return res.status(404).send()
-
-      console.log(visit)
       await prisma.visits.delete({
         where: {
-          id: visit.id,
+          id: visit!.id,
         },
       })
     })
