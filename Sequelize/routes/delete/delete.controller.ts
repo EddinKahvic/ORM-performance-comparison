@@ -7,7 +7,7 @@ export const DeleteSimple = async (req: Request, res: Response) => {
   try {
     const deletion = await visits.findOne({
       where: {
-        visit_date: '2009-06-04',
+        visit_date: '2010-03-05',
       },
     })
 
