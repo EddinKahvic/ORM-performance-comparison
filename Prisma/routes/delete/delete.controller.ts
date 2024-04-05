@@ -3,9 +3,17 @@ import { prisma } from '../../prisma'
 
 export const DeleteSimple = async (req: Request, res: Response) => {
   try {
+    const visit = await prisma.visits.findFirst({
+      where: {
+        visit_date: new Date('2010-03-05'),
+      },
+    })
+
+    if (visit === null) return res.status(404).send()
+
     const deleteSimple = await prisma.visits.delete({
       where: {
-        id: 3,
+        id: visit.id,
       },
     })
 
@@ -18,19 +26,36 @@ export const DeleteSimple = async (req: Request, res: Response) => {
 
 export const DeleteAdvanced = async (req: Request, res: Response) => {
   try {
-    const deleteAdvanced = await prisma.visits.deleteMany({
+    const pets = await prisma.pets.findMany({
       where: {
-        pets: {
-          owners: {
-            first_name: 'Jean',
-            last_name: 'Coleman',
-          },
+        owners: {
+          first_name: 'Jean',
+          last_name: 'Coleman',
+        },
+        visits: {
+          some: {},
         },
       },
     })
 
+    if (pets.length === 0) return res.status(404).send()
+
+    pets.map(async (pet) => {
+      const visit = await prisma.visits.findFirst({
+        where: {
+          pet_id: pet.id,
+        },
+      })
+
+      await prisma.visits.delete({
+        where: {
+          id: visit!.id,
+        },
+      })
+    })
+
     req.stop()
-    res.json(deleteAdvanced)
+    res.status(204).send()
   } catch (error) {
     res.status(500).json(error)
   }
