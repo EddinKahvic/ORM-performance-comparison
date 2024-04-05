@@ -53,11 +53,7 @@ export const DeleteAdvanced = async (req: Request, res: Response) => {
         },
       })
 
-      if (visit !== null) {
-        await visit.destroy()
-      } else {
-        return res.status(404).send()
-      }
+      await visit!.destroy()
     })
 
     req.stop()
