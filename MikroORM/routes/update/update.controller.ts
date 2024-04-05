@@ -37,23 +37,19 @@ export async function UpdateAdvanced(req: Request, res: Response) {
   try {
     const entityManager = await getEntityManager()
 
-    const pets = await entityManager.findAll(Pets, {
-      where: {
-        owner: {
-          $and: [{ firstName: 'George' }, { lastName: 'Franklin' }],
-        },
-        birthDate: {
-          $ne: '2005-01-01',
-        },
-        type: {
-          name: 'cat',
-        },
+    const cat = await entityManager.findOne(Pets, {
+      owner: {
+        $and: [{ firstName: 'George' }, { lastName: 'Franklin' }],
+      },
+      birthDate: {
+        $ne: '2005-01-01',
+      },
+      type: {
+        name: 'cat',
       },
     })
 
-    const cat = pets.shift()
-
-    if (cat === undefined) {
+    if (cat === null) {
       await closeConnection()
       return res.status(404).send()
     }
