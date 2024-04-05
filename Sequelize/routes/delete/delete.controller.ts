@@ -11,7 +11,7 @@ export const DeleteSimple = async (req: Request, res: Response) => {
       },
     })
 
-    if(deletion !== null){
+    if (deletion !== null) {
       deletion.destroy()
     } else {
       res.status(404).send()
@@ -26,33 +26,39 @@ export const DeleteSimple = async (req: Request, res: Response) => {
 
 export const DeleteAdvanced = async (req: Request, res: Response) => {
   try {
-    const owner = await owners.findOne({
-      where: {
-        first_name: 'Jean',
-        last_name: 'Coleman',
-      },
-      include: {
-        model: pets,
-        as: 'pets',
-        include: [
-          {
-            model: visits,
-            as: 'visits',
+    const allPets = await pets.findAll({
+      include: [
+        {
+          model: owners,
+          as: 'owner',
+          where: {
+            first_name: 'Jean',
+            last_name: 'Coleman',
           },
-        ],
-      },
+        },
+        {
+          model: visits,
+          as: 'visits',
+          required: true,
+        },
+      ],
     })
-    
-    if (owner !== null) {
-      owner.pets.forEach(async (pet) => {
-        const visitToDelete = pet.visits.shift()
-        if(visitToDelete){
-          await visitToDelete.destroy()
-        }
+
+    if (allPets.length === 0) return res.status(404).send()
+
+    allPets.map(async (pet) => {
+      const visit = await visits.findOne({
+        where: {
+          pet_id: pet.id,
+        },
       })
-    } else {
-      res.status(404).send()
-    }
+
+      if (visit !== null) {
+        await visit.destroy()
+      } else {
+        return res.status(404).send()
+      }
+    })
 
     req.stop()
     res.status(200).json({})

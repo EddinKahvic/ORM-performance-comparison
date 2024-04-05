@@ -4,20 +4,21 @@ import { Op } from 'sequelize'
 
 export const UpdateSimple = async (req: Request, res: Response) => {
   try {
-    const owner = await owners.findOne(
-    {
+    const owner = await owners.findOne({
       where: {
         first_name: 'Harold',
         last_name: 'Davis',
-        address:{ [Op.ne]: '789 Maple St.' }
+        address: { [Op.ne]: '789 Maple St.' },
       },
     })
 
-    if(owner !== null){
+    if (owner !== null) {
       owner.address = '789 Maple St.'
       owner.save()
     } else {
-      console.log('No owner found with name Harold Davis that requires updating');
+      console.log(
+        'No owner found with name Harold Davis that requires updating'
+      )
     }
 
     req.stop()
@@ -46,15 +47,15 @@ export const UpdateAdvanced = async (req: Request, res: Response) => {
         },
       ],
       where: {
-        birth_date: { [Op.ne]: '2005-01-01' } 
-      }
+        birth_date: { [Op.ne]: '2005-01-01' },
+      },
     })
-    
+
     if (petToUpdate !== null) {
-      petToUpdate.birth_date = '2005-01-01';
-      await petToUpdate.save();
+      petToUpdate.birth_date = '2005-01-01'
+      await petToUpdate.save()
     } else {
-      console.log('No cat found for George Franklin that requires updating');
+      console.log('No cat found for George Franklin that requires updating')
     }
 
     req.stop()
