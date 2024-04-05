@@ -1,19 +1,30 @@
 import { Request, Response } from 'express'
 import { closeConnection, getEntityManager } from '../..'
 import { Visits } from '../../Entities/Visits'
+import { Owners } from '../../Entities/Owners'
+import { Pets } from '../../Entities/Pets'
 
 export async function DeleteSimple(req: Request, res: Response) {
   try {
     const entityManager = await getEntityManager()
 
-    await entityManager.nativeDelete(Visits, 3)
+    const visit = await entityManager.findOne(Visits, {
+      visitDate: '2010-03-05',
+    })
 
-    await entityManager.flush()
+    if (visit !== null) {
+      await entityManager.removeAndFlush(visit)
+    } else {
+      await closeConnection()
+      return res.status(404).send()
+    }
+
     await closeConnection()
 
     req.stop()
     res.status(204).send('Deleted')
   } catch (error) {
+    await closeConnection()
     res.status(500).send(error)
   }
 }
@@ -22,17 +33,29 @@ export async function DeleteAdvanced(req: Request, res: Response) {
   try {
     const entityManager = await getEntityManager()
 
-    const visits = await entityManager.findAll(Visits, {
+    const owner = await entityManager.findOne(Owners, {
+      $and: [{ firstName: 'Jean', lastName: 'Coleman' }],
+    })
+
+    if (owner === null) throw 'Owner not found'
+
+    const pets = await entityManager.findAll(Pets, {
       where: {
-        pet: {
-          owner: {
-            $and: [{ firstName: 'Jean', lastName: 'Coleman' }],
-          },
-        },
+        owner: owner,
       },
     })
 
-    visits.forEach((visit) => entityManager.remove(visit))
+    if (pets.length === 0) throw 'Owner has no pets'
+
+    for (let pet of pets) {
+      const visit = await entityManager.findOne(Visits, {
+        pet: pet,
+      })
+
+      if (visit === null) continue
+
+      entityManager.remove(visit)
+    }
 
     await entityManager.flush()
     await closeConnection()
@@ -40,6 +63,7 @@ export async function DeleteAdvanced(req: Request, res: Response) {
     req.stop()
     res.status(204).send('Deleted')
   } catch (error) {
+    await closeConnection()
     res.status(500).send(error)
   }
 }

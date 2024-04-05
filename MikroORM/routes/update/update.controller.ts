@@ -5,13 +5,23 @@ import { closeConnection, getEntityManager } from '../../mikroorm'
 
 export async function UpdateSimple(req: Request, res: Response) {
   try {
+    const streetName = '789 Maple st.'
     const entityManager = await getEntityManager()
 
-    const owner = await entityManager.findOne(Owners, 4)
+    const owner = await entityManager.findOne(Owners, {
+      firstName: 'Harold',
+      lastName: 'Davis',
+      address: {
+        $ne: streetName,
+      },
+    })
 
-    if (owner === null) return // Throw error??
+    if (owner === null) {
+      await closeConnection()
+      return res.status(404).send()
+    }
 
-    owner.address = '789 Maple St.'
+    owner.address = streetName
 
     await entityManager.flush()
     await closeConnection()
@@ -32,15 +42,23 @@ export async function UpdateAdvanced(req: Request, res: Response) {
         owner: {
           $and: [{ firstName: 'George' }, { lastName: 'Franklin' }],
         },
+        birthDate: {
+          $ne: '2005-01-01',
+        },
         type: {
           name: 'cat',
         },
       },
     })
 
-    pets.map((pet) => {
-      pet.birthDate = '2005-01-01'
-    })
+    const cat = pets.shift()
+
+    if (cat === undefined) {
+      await closeConnection()
+      return res.status(404).send()
+    }
+
+    cat.birthDate = '2005-01-01'
 
     await entityManager.flush()
     await closeConnection()
