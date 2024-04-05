@@ -9,14 +9,12 @@ FIGURES_FOLDER = "./Figures/"
 
 _, iterations, operation, query = sys.argv
 
-# Check arguments' validity???!!!!
-
 filenames = glob.glob(f"./Results/*/{operation}/*-{operation}-{query}-{iterations}.json")
 
 libs = {}
 
 if len(filenames) != 3: 
-  raise Exception(f"data files insufficient for operation {operation}") 
+  raise Exception(f"Data files insufficient for operation {operation}") 
 
 for file in filenames:
   with open(file) as infile:
@@ -24,10 +22,9 @@ for file in filenames:
     libs[filename] = json.load(infile)
   
 def createMemoryUsageFigure():
-  # Create a DataFrame with your data
   df = pd.DataFrame({"MikroORM": libs["MikroORM"]["memoryUsage"], "Prisma": libs["Prisma"]["memoryUsage"], "Sequelize": libs["Sequelize"]["memoryUsage"]})
 
-  # Plotting a box plot
+# Create box plot and save it
   plt.figure(figsize=(8, 6))
   df.boxplot(color={"boxes": "tomato"}, patch_artist=True, showfliers=False)
   plt.ylabel('Memory Usage (mb)')
@@ -43,10 +40,9 @@ def createMemoryUsageFigure():
   print (df.sem())
 
 def createResponseTimeFigure():
-  # Create a DataFrame with your data
   df = pd.DataFrame({"MikroORM": libs["MikroORM"]["responseTimes"], "Prisma": libs["Prisma"]["responseTimes"], "Sequelize": libs["Sequelize"]["responseTimes"]})
 
-  # Plotting a box plot
+  # Create box plot and save it
   plt.figure(figsize=(8, 6))
   df.boxplot(color={"boxes": "tomato"}, patch_artist=True, showfliers=False)
   plt.ylabel('Reponse Time (ms)')
