@@ -6,6 +6,7 @@ export function MemoryUsageMiddleware(
   res: Response,
   next: NextFunction
 ) {
+  global.gc?.()
   const stop = MemoryUsage.Start()
   req.stop = stop
   next()

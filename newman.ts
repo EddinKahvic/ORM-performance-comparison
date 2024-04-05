@@ -1,12 +1,12 @@
 import MemoryUsage from './helpers/memoryUsage'
 import * as fs from 'fs/promises'
 import newman from 'newman'
-import { z } from "zod"
+import { z } from 'zod'
 
 const Iterations = z.number().positive()
-const Library = z.enum(["MikroORM", "Prisma", "Sequelize"])
-const Operation = z.enum(["Create", "Read", "Update", "Delete"])
-const Query = z.enum(["Simple", "Advanced"])
+const Library = z.enum(['MikroORM', 'Prisma', 'Sequelize'])
+const Operation = z.enum(['create', 'read', 'update', 'delete'])
+const Query = z.enum(['simple', 'advanced'])
 
 const [, , iters, library, operation, query] = process.argv
 
@@ -14,16 +14,16 @@ const iterations = parseInt(iters) ?? -1
 
 validateArguments()
 
-const outputFile = `./Results/${library}/${operation}/${library}-${operation}-${query}-${iterations}.csv`
+const outputFile = `./Results/${library}/${operation}/${library}-${operation}-${query}-${iterations}.json`
 const collectionPath = `./Collections/${library}/${library}-${operation}-${query}.json`
 
 newman.run(
   {
     collection: require(collectionPath),
-    reporters: 'csv',
+    reporters: 'json',
     iterationCount: iterations,
     reporter: {
-      csv: {
+      json: {
         export: outputFile,
         responseTime: true,
       },
@@ -37,28 +37,20 @@ newman.run(
         `Postman collection run completed successfully. Response times saved to ${outputFile}`
       )
 
-      const usages = await MemoryUsage.GetMemoryUsages()
-
       const data = await fs.readFile(outputFile, 'utf8')
+      const jsonData = JSON.parse(data)
 
-      const rows = data.trim().split('\n')
+      const memoryUsage = await MemoryUsage.GetMemoryUsages()
 
-      for (let i = 0; i < rows.length; i++) {
-        if (i === 0) {
-          const newRow = `${rows[i].trim()},memoryUsage`
-          rows[i] = newRow
-        } else {
-          const usage = usages[i - 1] || '0'
-          const newRow = `${rows[i].trim()},"${usage}"`
-          rows[i] = newRow
-        }
-      }
+      const responseTimes = jsonData['run']['executions'].map(
+        (exe: any) => exe['response']['responseTime']
+      )
 
-      const updatedCSV = rows.join('\n')
+      const dataToWrite = { memoryUsage, responseTimes }
 
-      await fs.writeFile(outputFile, updatedCSV, 'utf8')
+      await fs.writeFile(outputFile, JSON.stringify(dataToWrite), 'utf8')
 
-      console.log('Memory usage data added to CSV file.')
+      console.log('Memory usage data added to JSON file.')
       await MemoryUsage.ClearMemoryUsages()
     }
   }
@@ -66,19 +58,22 @@ newman.run(
 
 function validateArguments() {
   if (!Iterations.safeParse(iterations).success) {
-    throw "Invalid iterations argument"
+    throw 'Invalid iterations argument'
   }
+
   if (!Library.safeParse(library).success) {
     throw `Invalid library argument: ${errorMessage(library, Library)}`
   }
+
   if (!Operation.safeParse(operation).success) {
     throw `Invalid operation argument: ${errorMessage(operation, Operation)}`
   }
+
   if (!Query.safeParse(query).success) {
     throw `Invalid query argument: ${errorMessage(query, Query)}`
   }
 }
 
 function errorMessage(entry: string, types: z.ZodEnum<any>) {
-  return `${entry} is not type of ${Object.keys(types.Values).join(" | ")}`
+  return `${entry} is not type of ${Object.keys(types.Values).join(' | ')}`
 }
