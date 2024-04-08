@@ -22,9 +22,9 @@ for file in filenames:
     libs[filename] = json.load(infile)
   
 def createMemoryUsageFigure():
-  mikroORM = pd.Series(filter_negative_numbers(libs["MikroORM"]["memoryUsage"]))
-  prisma = pd.Series(filter_negative_numbers(libs["Prisma"]["memoryUsage"]))
-  sequelize = pd.Series(filter_negative_numbers(libs["Sequelize"]["memoryUsage"]))
+  mikroORM = pd.Series(filterNegativeNumbers(libs["MikroORM"]["memoryUsage"]))
+  prisma = pd.Series(filterNegativeNumbers(libs["Prisma"]["memoryUsage"]))
+  sequelize = pd.Series(filterNegativeNumbers(libs["Sequelize"]["memoryUsage"]))
   df = pd.DataFrame({"MikroORM": mikroORM, "Prisma": prisma, "Sequelize": sequelize})
 
 # Create box plot and save it
@@ -60,7 +60,7 @@ def createResponseTimeFigure():
   print ("S.E values:")
   print (df.sem())
   
-def filter_negative_numbers(arr):
+def filterNegativeNumbers(arr):
   return [x for x in arr if x >= 0]
 
 createMemoryUsageFigure()
