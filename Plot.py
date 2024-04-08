@@ -22,13 +22,16 @@ for file in filenames:
     libs[filename] = json.load(infile)
   
 def createMemoryUsageFigure():
-  df = pd.DataFrame({"MikroORM": libs["MikroORM"]["memoryUsage"], "Prisma": libs["Prisma"]["memoryUsage"], "Sequelize": libs["Sequelize"]["memoryUsage"]})
+  mikroORM = pd.Series(filter_negative_numbers(libs["MikroORM"]["memoryUsage"]))
+  prisma = pd.Series(filter_negative_numbers(libs["Prisma"]["memoryUsage"]))
+  sequelize = pd.Series(filter_negative_numbers(libs["Sequelize"]["memoryUsage"]))
+  df = pd.DataFrame({"MikroORM": mikroORM, "Prisma": prisma, "Sequelize": sequelize})
 
 # Create box plot and save it
   plt.figure(figsize=(8, 6))
   df.boxplot(color={"boxes": "tomato"}, patch_artist=True, showfliers=False)
   plt.ylabel('Memory Usage (mb)')
-  plt.title('Box plot of Memory Usage')
+  plt.title(f'Box plot of Memory Usage ({iterations} iterations)')
   plt.grid(True)
   plt.savefig(FIGURES_FOLDER + f"{operation}-{query}-{iterations}-memoryUsage")
 
@@ -57,5 +60,8 @@ def createResponseTimeFigure():
   print ("S.E values:")
   print (df.sem())
   
+def filter_negative_numbers(arr):
+  return [x for x in arr if x >= 0]
+
 createMemoryUsageFigure()
 createResponseTimeFigure()
