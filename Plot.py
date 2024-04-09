@@ -13,6 +13,8 @@ filenames = glob.glob(f"./Results/*/{operation}/*-{operation}-{query}-{iteration
 
 libs = {}
 
+colors=["lightcoral", "lightgreen", "lightblue"]
+
 if len(filenames) != 3: 
   raise Exception(f"Data files insufficient for operation {operation}") 
 
@@ -25,47 +27,39 @@ def filterNegativeNumbers(arr):
   return [x for x in arr if x >= 0]
 
 def createMemoryUsageFigure():
-
-  colors=["red", "green", "blue"]
-
   mikroORM = pd.Series(filterNegativeNumbers(libs["MikroORM"]["memoryUsage"]))
   prisma = pd.Series(filterNegativeNumbers(libs["Prisma"]["memoryUsage"]))
   sequelize = pd.Series(filterNegativeNumbers(libs["Sequelize"]["memoryUsage"]))
-  df = pd.DataFrame({"MikroORM": mikroORM, "Prisma": prisma, "Sequelize": sequelize})
+  array = [mikroORM, prisma, sequelize]
 
-# Create box plot and save it
-  plt.figure(figsize=(8, 6))
-  df.boxplot( patch_artist=True, showfliers=False, color=colors)
+  fig =  plt.figure(figsize=(8, 6))
+  ax = fig.add_subplot()
+  boxplot = ax.boxplot( array, patch_artist=True, showfliers=False, medianprops=dict(color="black"), labels=["MikroORM", "Prisma", "Sequelize"])
+
+  for patch, color in zip(boxplot['boxes'], colors):
+    patch.set_facecolor(color)
 
   plt.ylabel('Memory Usage (mb)')
   plt.title(f'Box plot of Memory Usage ({iterations} iterations)')
   plt.grid(True)
   plt.savefig(FIGURES_FOLDER + f"{operation}-{query}-{iterations}-memoryUsage")
 
-  print ("Mean values:")
-  print (df.mean())
-  print ("STD values:")
-  print (df.std())
-  print ("S.E values:")
-  print (df.sem())
+def createResponseTimeFigure(): 
+  mikroORM = pd.Series(filterNegativeNumbers(libs["MikroORM"]["responseTimes"]))
+  prisma = pd.Series(filterNegativeNumbers(libs["Prisma"]["responseTimes"]))
+  sequelize = pd.Series(filterNegativeNumbers(libs["Sequelize"]["responseTimes"]))
+  array = [mikroORM, prisma, sequelize]
 
-def createResponseTimeFigure():
-  df = pd.DataFrame({"MikroORM": libs["MikroORM"]["responseTimes"], "Prisma": libs["Prisma"]["responseTimes"], "Sequelize": libs["Sequelize"]["responseTimes"]})
+  fig =  plt.figure(figsize=(8, 6))
+  ax = fig.add_subplot()
+  boxplot = ax.boxplot( array, patch_artist=True, showfliers=False, medianprops=dict(color="black"), labels=["MikroORM", "Prisma", "Sequelize"])
 
-  # Create box plot and save it
-  plt.figure(figsize=(8, 6))
-  df.boxplot(color={"boxes": "tomato"}, patch_artist=True, showfliers=False)
+  for patch, color in zip(boxplot['boxes'], colors):
+    patch.set_facecolor(color)
   plt.ylabel('Reponse Time (ms)')
-  plt.title('Box plot of Response Time')
+  plt.title(f'Box plot of Response Time ({iterations} iterations)')
   plt.grid(True)
   plt.savefig(FIGURES_FOLDER + f"{operation}-{query}-{iterations}-responseTime")
-
-  print ("Mean values:")
-  print (df.mean())
-  print ("STD values:")
-  print (df.std())
-  print ("S.E values:")
-  print (df.sem())
   
 createMemoryUsageFigure()
-# createResponseTimeFigure()
+createResponseTimeFigure()
