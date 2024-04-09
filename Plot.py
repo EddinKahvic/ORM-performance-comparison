@@ -20,7 +20,11 @@ for file in filenames:
   with open(file) as infile:
     filename = Path(file).stem.split("-")[0]
     libs[filename] = json.load(infile)
-  
+
+
+def filterNegativeNumbers(arr):
+  return [x for x in arr if x >= 0]
+
 def createMemoryUsageFigure():
   mikroORM = pd.Series(filterNegativeNumbers(libs["MikroORM"]["memoryUsage"]))
   prisma = pd.Series(filterNegativeNumbers(libs["Prisma"]["memoryUsage"]))
@@ -60,8 +64,5 @@ def createResponseTimeFigure():
   print ("S.E values:")
   print (df.sem())
   
-def filterNegativeNumbers(arr):
-  return [x for x in arr if x >= 0]
-
 createMemoryUsageFigure()
 createResponseTimeFigure()
