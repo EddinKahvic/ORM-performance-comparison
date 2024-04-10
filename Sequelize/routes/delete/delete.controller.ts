@@ -47,11 +47,13 @@ export const DeleteAdvanced = async (req: Request, res: Response) => {
     if (allPets.length === 0) return res.status(404).send()
 
     allPets.map(async (pet) => {
-      await visits.destroy({
+      const visit = await visits.findOne({
         where: {
           pet_id: pet.id,
         },
       })
+
+      await visit!.destroy()
     })
 
     req.stop()
