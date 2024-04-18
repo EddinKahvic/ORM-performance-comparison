@@ -17,6 +17,9 @@ validateArguments()
 const outputFile = `./Results/${library}/${operation}/${library}-${operation}-${query}-${iterations}.json`
 const collectionPath = `./Collections/${library}/${library}-${operation}-${query}.json`
 
+// Clear memory usages before running test
+MemoryUsage.ClearMemoryUsages()
+
 newman.run(
   {
     collection: require(collectionPath),
