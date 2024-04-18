@@ -3,6 +3,7 @@ import matplotlib.pyplot as plt
 import glob
 import sys
 import json
+import os
 from pathlib import Path
 
 FIGURES_FOLDER = "./Figures/"
@@ -14,6 +15,9 @@ filenames = glob.glob(f"./Results/*/{operation}/*-{operation}-{query}-{iteration
 libs = {}
 
 colors=["#65df75", "#4ab4f4", "#f7ff4a"]
+
+# Ensure '/Figures' folder exists, create if it does not exist
+os.makedirs(FIGURES_FOLDER, exist_ok=True)
 
 if len(filenames) != 3: 
   raise Exception(f"Data files insufficient for operation {operation}") 
@@ -76,6 +80,14 @@ def createLineGraph():
   plt.grid(True)
   plt.savefig(FIGURES_FOLDER + f"{operation}-{query}-{iterations}-linegraph")
 
+def successMessage():
+  success_message = f"Finsihed creating plots for {operation} {query} [{iterations}]"
+  line_len = len(success_message)
+  print("-" * line_len)
+  print(success_message)
+  print("-" * line_len)
+
 createLineGraph()  
 createMemoryUsageFigure()
 createResponseTimeFigure()
+successMessage()
