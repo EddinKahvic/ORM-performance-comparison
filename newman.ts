@@ -17,6 +17,9 @@ validateArguments()
 const outputFile = `./Results/${library}/${operation}/${library}-${operation}-${query}-${iterations}.json`
 const collectionPath = `./Collections/${library}/${library}-${operation}-${query}.json`
 
+// Clear memory usages before running test
+MemoryUsage.ClearMemoryUsages()
+
 newman.run(
   {
     collection: require(collectionPath),
@@ -42,8 +45,10 @@ newman.run(
 
       const memoryUsage = await MemoryUsage.GetMemoryUsages()
 
-      if (memoryUsage.length !== iterations)
-        throw 'Test failed, insufficient memory usages'
+      if (memoryUsage.length !== iterations) {
+        await MemoryUsage.ClearMemoryUsages()
+        return console.log('Test failed, insufficient memory usages')
+      }
 
       const responseTimes = jsonData['run']['executions'].map(
         (exe: any) => exe['response']['responseTime']

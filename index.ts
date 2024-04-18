@@ -4,13 +4,18 @@ import MikroORMRoutes from './MikroORM'
 import { MemoryUsageMiddleware } from './helpers/middlewares'
 import { setFlagsFromString } from 'v8'
 
-setFlagsFromString('--expose-gc --trace-gc')
+setFlagsFromString('--trace-gc')
 
 // Extend Express Request interface
 declare module 'express-serve-static-core' {
   interface Request {
     stop: () => void
   }
+}
+
+// Ensure that gc function is exposed
+if (global.gc === undefined) {
+  throw "Function global.gc() is not exposed, is the script ran with '--expose-gc' flag?"
 }
 
 const app = express()
