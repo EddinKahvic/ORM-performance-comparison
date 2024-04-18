@@ -12,12 +12,12 @@
 				"method": "POST",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:4949/prisma/create/simple",
+					"raw": "http://localhost:5000/prisma/create/simple",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
-					"port": "4949",
+					"port": "5000",
 					"path": [
 						"prisma",
 						"create",
