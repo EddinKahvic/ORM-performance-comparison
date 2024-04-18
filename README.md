@@ -15,7 +15,7 @@ To get the tests to run properly, an environment `.env` file has to be added to 
 # MikroORM and Sequelize configuration
 DATABASE_NAME = "YOUR_DATABASE_NAME"
 DATABASE_HOST = "YOUR_DATABASE_HOST"
-DATABASE_USERNAME = "YOUR_DATABASE_USERNAME"
+DATABASE_USER = "YOUR_DATABASE_USER"
 DATABASE_PORT = 3306
 DATABASE_PASSWORD = "YOUR_DATABASE_PASSWORD"
 
