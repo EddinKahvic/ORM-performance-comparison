@@ -19,27 +19,37 @@ colors=["#65df75", "#4ab4f4", "#f7ff4a"]
 # Ensure '/Figures' folder exists, create if it does not exist
 os.makedirs(FIGURES_FOLDER, exist_ok=True)
 
+# Ensure all necessary data files exist to create the plots
 if len(filenames) != 3: 
   raise Exception(f"Data files insufficient for operation {operation}") 
 
+# Populate libs dict with data from each library
 for file in filenames:
   with open(file) as infile:
     filename = Path(file).stem.split("-")[0]
     libs[filename] = json.load(infile)
 
+# Function for filtering array, returning only positive integers
 def filterNegativeNumbers(arr):
   return [x for x in arr if x >= 0]
+
+def generateLabels(array):
+  labels = ["MikroORM", "Prisma", "Sequelize"]
+
+  if any(l.size != int(iterations) for l in array):
+    return list(map(lambda lib: lib[0] + f"\n({len(lib[1])} samples)", zip(labels, array)))
+
+  return labels
 
 def createMemoryUsageFigure():
   mikroORM = pd.Series(filterNegativeNumbers(libs["MikroORM"]["memoryUsage"]))
   prisma = pd.Series(filterNegativeNumbers(libs["Prisma"]["memoryUsage"]))
   sequelize = pd.Series(filterNegativeNumbers(libs["Sequelize"]["memoryUsage"]))
   array = [mikroORM, prisma, sequelize]
-
   fig =  plt.figure(figsize=(8, 6))
   ax = fig.add_subplot()
   boxplot = ax.boxplot( array, patch_artist=True, showfliers=False, medianprops=dict(color="red"), 
-    labels=[f"MikroORM\n{len(mikroORM)} samples", f"Prisma\n{len(prisma)} samples",f"Sequelize\n{len(sequelize)} samples"])
+    labels=generateLabels(array))
 
   for patch, color in zip(boxplot['boxes'], colors):
     patch.set_facecolor(color)
@@ -57,7 +67,7 @@ def createResponseTimeFigure():
 
   fig =  plt.figure(figsize=(8, 6))
   ax = fig.add_subplot()
-  boxplot = ax.boxplot( array, patch_artist=True, showfliers=False, medianprops=dict(color="red"), labels=["MikroORM", "Prisma", "Sequelize"])
+  boxplot = ax.boxplot( array, patch_artist=True, showfliers=False, medianprops=dict(color="red"), labels=generateLabels(array))
 
   for patch, color in zip(boxplot['boxes'], colors):
     patch.set_facecolor(color)
@@ -87,7 +97,6 @@ def successMessage():
   print(success_message)
   print("-" * line_len)
 
-# createLineGraph()  
 createMemoryUsageFigure()
 createResponseTimeFigure()
 successMessage()
