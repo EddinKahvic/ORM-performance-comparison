@@ -34,13 +34,14 @@ def createMemoryUsageFigure():
 
   fig =  plt.figure(figsize=(8, 6))
   ax = fig.add_subplot()
-  boxplot = ax.boxplot( array, patch_artist=True, showfliers=False, medianprops=dict(color="black"), labels=["MikroORM", "Prisma", "Sequelize"])
+  boxplot = ax.boxplot( array, patch_artist=True, showfliers=False, medianprops=dict(color="black"), 
+    labels=[f"MikroORM\n{len(mikroORM)} samples", f"Prisma\n{len(prisma)} samples",f"Sequelize\n{len(sequelize)} samples"])
 
   for patch, color in zip(boxplot['boxes'], colors):
     patch.set_facecolor(color)
 
-  plt.ylabel('Memory Usage (mb)')
-  plt.title(f'Box plot of Memory Usage ({iterations} iterations)')
+  plt.ylabel('Memory Usage (bytes)')
+  plt.title(f'{operation.capitalize()} {query.capitalize()} - Memory Usage ({iterations} iterations)')
   plt.grid(True)
   plt.savefig(FIGURES_FOLDER + f"{operation}-{query}-{iterations}-memoryUsage")
 
@@ -57,9 +58,28 @@ def createResponseTimeFigure():
   for patch, color in zip(boxplot['boxes'], colors):
     patch.set_facecolor(color)
   plt.ylabel('Reponse Time (ms)')
-  plt.title(f'Box plot of Response Time ({iterations} iterations)')
+  plt.title(f'{operation.capitalize()} {query.capitalize()} - Response times ({iterations} iterations)')
   plt.grid(True)
   plt.savefig(FIGURES_FOLDER + f"{operation}-{query}-{iterations}-responseTime")
   
+
+def createLineGraph(): 
+  mikroORM = pd.Series(filterNegativeNumbers(libs["MikroORM"]["responseTimes"]))
+  prisma = pd.Series(filterNegativeNumbers(libs["Prisma"]["responseTimes"]))
+  sequelize = pd.Series(filterNegativeNumbers(libs["Sequelize"]["responseTimes"]))
+  array = [mikroORM, prisma, sequelize]
+
+  fig =  plt.figure(figsize=(8, 6))
+
+  df = pd.DataFrame({"MikroORM": mikroORM, "Prisma": prisma, "Sequelize": sequelize})
+
+  df.plot.line()
+
+  plt.ylabel('Reponse Time (ms)')
+  plt.title(f'{operation.capitalize()} {query.capitalize()} - Response times ({iterations} iterations)')
+  plt.grid(True)
+  plt.savefig(FIGURES_FOLDER + f"{operation}-{query}-{iterations}-linegraph")
+
+createLineGraph()  
 createMemoryUsageFigure()
 createResponseTimeFigure()
