@@ -42,8 +42,6 @@ newman.run(
 
       const memoryUsage = await MemoryUsage.GetMemoryUsages()
 
-      console.log(memoryUsage.length, iterations)
-
       if (memoryUsage.length !== iterations) {
         await MemoryUsage.ClearMemoryUsages()
         return console.log('Test failed, insufficient memory usages')
