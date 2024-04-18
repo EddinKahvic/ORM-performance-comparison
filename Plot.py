@@ -13,7 +13,7 @@ filenames = glob.glob(f"./Results/*/{operation}/*-{operation}-{query}-{iteration
 
 libs = {}
 
-colors=["lightcoral", "lightgreen", "lightblue"]
+colors=["#65df75", "#4ab4f4", "#f7ff4a"]
 
 if len(filenames) != 3: 
   raise Exception(f"Data files insufficient for operation {operation}") 
@@ -34,7 +34,7 @@ def createMemoryUsageFigure():
 
   fig =  plt.figure(figsize=(8, 6))
   ax = fig.add_subplot()
-  boxplot = ax.boxplot( array, patch_artist=True, showfliers=False, medianprops=dict(color="black"), 
+  boxplot = ax.boxplot( array, patch_artist=True, showfliers=False, medianprops=dict(color="red"), 
     labels=[f"MikroORM\n{len(mikroORM)} samples", f"Prisma\n{len(prisma)} samples",f"Sequelize\n{len(sequelize)} samples"])
 
   for patch, color in zip(boxplot['boxes'], colors):
@@ -53,7 +53,7 @@ def createResponseTimeFigure():
 
   fig =  plt.figure(figsize=(8, 6))
   ax = fig.add_subplot()
-  boxplot = ax.boxplot( array, patch_artist=True, showfliers=False, medianprops=dict(color="black"), labels=["MikroORM", "Prisma", "Sequelize"])
+  boxplot = ax.boxplot( array, patch_artist=True, showfliers=False, medianprops=dict(color="red"), labels=["MikroORM", "Prisma", "Sequelize"])
 
   for patch, color in zip(boxplot['boxes'], colors):
     patch.set_facecolor(color)
