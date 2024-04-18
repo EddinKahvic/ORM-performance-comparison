@@ -66,9 +66,8 @@ def createLineGraph():
   mikroORM = pd.Series(filterNegativeNumbers(libs["MikroORM"]["responseTimes"]))
   prisma = pd.Series(filterNegativeNumbers(libs["Prisma"]["responseTimes"]))
   sequelize = pd.Series(filterNegativeNumbers(libs["Sequelize"]["responseTimes"]))
-  array = [mikroORM, prisma, sequelize]
 
-  fig =  plt.figure(figsize=(8, 6))
+  plt.figure(figsize=(8, 6))
   df = pd.DataFrame({"MikroORM": mikroORM, "Prisma": prisma, "Sequelize": sequelize})
   df.plot.line()
 
