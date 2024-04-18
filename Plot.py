@@ -61,7 +61,6 @@ def createResponseTimeFigure():
   plt.title(f'{operation.capitalize()} {query.capitalize()} - Response times ({iterations} iterations)')
   plt.grid(True)
   plt.savefig(FIGURES_FOLDER + f"{operation}-{query}-{iterations}-responseTime")
-  
 
 def createLineGraph(): 
   mikroORM = pd.Series(filterNegativeNumbers(libs["MikroORM"]["responseTimes"]))
@@ -70,9 +69,7 @@ def createLineGraph():
   array = [mikroORM, prisma, sequelize]
 
   fig =  plt.figure(figsize=(8, 6))
-
   df = pd.DataFrame({"MikroORM": mikroORM, "Prisma": prisma, "Sequelize": sequelize})
-
   df.plot.line()
 
   plt.ylabel('Reponse Time (ms)')
