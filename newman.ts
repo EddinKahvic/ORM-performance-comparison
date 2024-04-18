@@ -42,8 +42,12 @@ newman.run(
 
       const memoryUsage = await MemoryUsage.GetMemoryUsages()
 
-      if (memoryUsage.length !== iterations)
-        throw 'Test failed, insufficient memory usages'
+      console.log(memoryUsage.length, iterations)
+
+      if (memoryUsage.length !== iterations) {
+        await MemoryUsage.ClearMemoryUsages()
+        return console.log('Test failed, insufficient memory usages')
+      }
 
       const responseTimes = jsonData['run']['executions'].map(
         (exe: any) => exe['response']['responseTime']

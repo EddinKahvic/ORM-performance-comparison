@@ -87,7 +87,7 @@ def successMessage():
   print(success_message)
   print("-" * line_len)
 
-createLineGraph()  
+# createLineGraph()  
 createMemoryUsageFigure()
 createResponseTimeFigure()
 successMessage()
