@@ -39,12 +39,11 @@ for file in filenames:
       data[its][lib] = lib_data[datatype]
 
 def tukey(*data):
-  groups = ['MikroORM', 'Prisma', 'Sequelize']
   df = pd.DataFrame()
 
-  df[groups[0]] = data[0]
-  df[groups[1]] = data[1]
-  df[groups[2]] = data[2]
+  df["MikroORM"] = data[0]
+  df["Prisma"] = data[1]
+  df["Sequelize"] = data[2]
 
   stacked_data = df.stack().reset_index()
   stacked_data = stacked_data.rename(columns={'level_0':'id', 'level_1':'treatment', 0:'result'})
