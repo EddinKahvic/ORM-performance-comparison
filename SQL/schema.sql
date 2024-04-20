@@ -1,3 +1,11 @@
+/*
+*
+*   This file has been modified. 
+*   The original version can be found in the repository of the copyright holders.
+*   See README.md under the SQL folder for more information.
+*   
+*/
+
 CREATE TABLE IF NOT EXISTS vets (
   id INT(4) UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
   first_name VARCHAR(30),
