@@ -7,6 +7,7 @@ import os
 from pathlib import Path
 
 FIGURES_FOLDER = "./Figures/"
+LABELS = ["MikroORM", "Prisma", "Sequelize"]
 
 _, iterations, operation, query = sys.argv
 
@@ -29,27 +30,14 @@ for file in filenames:
     filename = Path(file).stem.split("-")[0]
     libs[filename] = json.load(infile)
 
-# Function for filtering array, returning only positive integers
-def filterNegativeNumbers(arr):
-  return [x for x in arr if x >= 0]
-
-def generateLabels(array):
-  labels = ["MikroORM", "Prisma", "Sequelize"]
-
-  if any(l.size != int(iterations) for l in array):
-    return list(map(lambda lib: lib[0] + f"\n({len(lib[1])} samples)", zip(labels, array)))
-
-  return labels
-
 def createMemoryUsageFigure():
-  mikroORM = pd.Series(filterNegativeNumbers(libs["MikroORM"]["memoryUsage"]))
-  prisma = pd.Series(filterNegativeNumbers(libs["Prisma"]["memoryUsage"]))
-  sequelize = pd.Series(filterNegativeNumbers(libs["Sequelize"]["memoryUsage"]))
+  mikroORM = pd.Series(libs["MikroORM"]["memoryUsage"])
+  prisma = pd.Series(libs["Prisma"]["memoryUsage"])
+  sequelize = pd.Series(libs["Sequelize"]["memoryUsage"])
   array = [mikroORM, prisma, sequelize]
   fig =  plt.figure(figsize=(8, 6))
   ax = fig.add_subplot()
-  boxplot = ax.boxplot( array, patch_artist=True, showfliers=False, medianprops=dict(color="red"), 
-    labels=generateLabels(array))
+  boxplot = ax.boxplot(array, patch_artist=True, showfliers=False, medianprops=dict(color="red"), labels=LABELS)
 
   for patch, color in zip(boxplot['boxes'], colors):
     patch.set_facecolor(color)
@@ -60,26 +48,27 @@ def createMemoryUsageFigure():
   plt.savefig(FIGURES_FOLDER + f"{operation}-{query}-{iterations}-memoryUsage")
 
 def createResponseTimeFigure(): 
-  mikroORM = pd.Series(filterNegativeNumbers(libs["MikroORM"]["responseTimes"]))
-  prisma = pd.Series(filterNegativeNumbers(libs["Prisma"]["responseTimes"]))
-  sequelize = pd.Series(filterNegativeNumbers(libs["Sequelize"]["responseTimes"]))
+  mikroORM = pd.Series(libs["MikroORM"]["responseTimes"])
+  prisma = pd.Series(libs["Prisma"]["responseTimes"])
+  sequelize = pd.Series(libs["Sequelize"]["responseTimes"])
   array = [mikroORM, prisma, sequelize]
 
   fig =  plt.figure(figsize=(8, 6))
   ax = fig.add_subplot()
-  boxplot = ax.boxplot( array, patch_artist=True, showfliers=False, medianprops=dict(color="red"), labels=generateLabels(array))
+  boxplot = ax.boxplot(array, patch_artist=True, showfliers=False, medianprops=dict(color="red"), labels=LABELS)
 
   for patch, color in zip(boxplot['boxes'], colors):
     patch.set_facecolor(color)
+
   plt.ylabel('Reponse Time (ms)')
   plt.title(f'{operation.capitalize()} {query.capitalize()} - Response times ({iterations} iterations)')
   plt.grid(True)
   plt.savefig(FIGURES_FOLDER + f"{operation}-{query}-{iterations}-responseTime")
 
 def createLineGraph(): 
-  mikroORM = pd.Series(filterNegativeNumbers(libs["MikroORM"]["responseTimes"]))
-  prisma = pd.Series(filterNegativeNumbers(libs["Prisma"]["responseTimes"]))
-  sequelize = pd.Series(filterNegativeNumbers(libs["Sequelize"]["responseTimes"]))
+  mikroORM = pd.Series(libs["MikroORM"]["responseTimes"])
+  prisma = pd.Series(libs["Prisma"]["responseTimes"])
+  sequelize = pd.Series(libs["Sequelize"]["responseTimes"])
 
   plt.figure(figsize=(8, 6))
   df = pd.DataFrame({"MikroORM": mikroORM, "Prisma": prisma, "Sequelize": sequelize})
@@ -97,6 +86,7 @@ def successMessage():
   print(success_message)
   print("-" * line_len)
 
+#createLineGraph()
 createMemoryUsageFigure()
 createResponseTimeFigure()
 successMessage()
