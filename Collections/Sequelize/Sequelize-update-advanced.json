@@ -1,0 +1,31 @@
+{
+	"info": {
+		"_postman_id": "1813f2c5-d778-4e19-b6fe-91d8b98c1d43",
+		"name": "Sequelize-update-advanced",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "32682360"
+	},
+	"item": [
+		{
+			"name": "New Request",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:5000/sequelize/update/advanced",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"sequelize",
+						"update",
+						"advanced"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

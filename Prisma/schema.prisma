@@ -1,0 +1,71 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model owners {
+  id         Int     @id @default(autoincrement()) @db.UnsignedInt
+  first_name String? @db.VarChar(30)
+  last_name  String? @db.VarChar(30)
+  address    String? @db.VarChar(255)
+  city       String? @db.VarChar(80)
+  telephone  String? @db.VarChar(20)
+  pets       pets[]
+}
+
+model pets {
+  id         Int       @id @default(autoincrement()) @db.UnsignedInt
+  name       String?   @db.VarChar(30)
+  birth_date DateTime? @db.Date
+  type_id    Int       @db.UnsignedInt
+  owner_id   Int?      @db.UnsignedInt
+  owners     owners?   @relation(fields: [owner_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "pets_ibfk_1")
+  types      types     @relation(fields: [type_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "pets_ibfk_2")
+  visits     visits[]
+
+  @@index([owner_id], map: "owner_id")
+  @@index([type_id], map: "type_id")
+}
+
+model specialties {
+  id              Int               @id @default(autoincrement()) @db.UnsignedInt
+  name            String?           @db.VarChar(80)
+  vet_specialties vet_specialties[]
+}
+
+model types {
+  id   Int     @id @default(autoincrement()) @db.UnsignedInt
+  name String? @db.VarChar(80)
+  pets pets[]
+}
+
+model vet_specialties {
+  vet_id       Int         @db.UnsignedInt
+  specialty_id Int         @db.UnsignedInt
+  vets         vets        @relation(fields: [vet_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "vet_specialties_ibfk_1")
+  specialties  specialties @relation(fields: [specialty_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "vet_specialties_ibfk_2")
+
+  @@unique([vet_id, specialty_id], map: "vet_id")
+  @@index([specialty_id], map: "specialty_id")
+}
+
+model vets {
+  id              Int               @id @default(autoincrement()) @db.UnsignedInt
+  first_name      String?           @db.VarChar(30)
+  last_name       String?           @db.VarChar(30)
+  vet_specialties vet_specialties[]
+}
+
+model visits {
+  id          Int       @id @default(autoincrement()) @db.UnsignedInt
+  pet_id      Int?      @db.UnsignedInt
+  visit_date  DateTime? @db.Date
+  description String?   @db.VarChar(255)
+  pets        pets?     @relation(fields: [pet_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "visits_ibfk_1")
+
+  @@index([pet_id], map: "pet_id")
+}

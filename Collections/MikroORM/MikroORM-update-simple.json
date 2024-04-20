@@ -1,0 +1,31 @@
+{
+	"info": {
+		"_postman_id": "f312ad2a-0724-45d2-9204-d789d970b834",
+		"name": "MikroORM-update-simple",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "32682360"
+	},
+	"item": [
+		{
+			"name": "New Request",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:5000/mikroorm/update/simple",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"mikroorm",
+						"update",
+						"simple"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
